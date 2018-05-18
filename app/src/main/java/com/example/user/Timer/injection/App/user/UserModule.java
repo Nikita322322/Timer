@@ -1,0 +1,31 @@
+package com.example.user.Timer.injection.App.user;
+
+import com.example.user.Timer.dataLayer.repository.Repository;
+import com.example.user.Timer.dataLayer.repository.RepositoryImpl;
+import com.example.user.Timer.presentation.fragmentDescription.DescriptionPresenter;
+import com.example.user.Timer.presentation.fragmentDescription.DescriptionPresenterImpl;
+import com.example.user.Timer.presentation.fragmentWebView.ClockViewPresenter;
+import com.example.user.Timer.presentation.fragmentWebView.ClockViewPresenterImpl;
+
+import dagger.Module;
+import dagger.Provides;
+
+@Module
+public class UserModule {
+    @UserScope
+    @Provides
+    Repository provideRepository(RepositoryImpl repository) {
+        return repository;
+    }
+
+    @Provides
+    ClockViewPresenter provideFragmentWebView(ClockViewPresenterImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    DescriptionPresenter provideFragmentEditPropertiesPresenter(DescriptionPresenterImpl presenter) {
+        return presenter;
+    }
+
+}

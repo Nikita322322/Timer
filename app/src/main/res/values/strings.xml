@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Timer</string>
+    <string-array name="boolean_variables">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+</resources>
