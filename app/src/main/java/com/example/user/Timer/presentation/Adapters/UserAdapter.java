@@ -1,4 +1,4 @@
-package com.example.user.Timer.presentation;
+package com.example.user.Timer.presentation.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,8 +23,6 @@ import javax.inject.Inject;
 public class UserAdapter extends BaseAdapter {
     private Context context;
     private List<User> userList;
-    @Inject
-    DeleteUserInteractor deleteUserInteractor;
 
     @Inject
     public UserAdapter(Context context) {
@@ -77,11 +75,11 @@ public class UserAdapter extends BaseAdapter {
         }
     }
 
-    public String getDate(String milliseconds) {
+    private String getDate(String milliseconds) {
         Calendar cl = Calendar.getInstance();
         cl.setTimeInMillis(Long.parseLong(milliseconds));  //here your time in miliseconds
         //String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
         String time = "" + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
-        return  time;
+        return time;
     }
 }

@@ -4,4 +4,7 @@
         <item>true</item>
         <item>false</item>
     </string-array>
+    <string name="YES">Yes</string>
+    <string name="NO">No</string>
+    <string name="Delete_this_Item">Delete this Item?</string>
 </resources>
