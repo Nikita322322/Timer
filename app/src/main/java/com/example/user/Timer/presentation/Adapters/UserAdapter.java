@@ -82,4 +82,8 @@ public class UserAdapter extends BaseAdapter {
         String time = "" + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
         return time;
     }
+
+    public List<User> getUserList() {
+        return userList;
+    }
 }

@@ -74,6 +74,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         userAdapter.setUserList(userList);
         binding.listView.setAdapter(userAdapter);
         binding.listView.setOnItemClickListener((adapterView, view, i, l) -> showDialog(userAdapter, i));
+        binding.customGraphicsView.updateView(userList);
     }
 
     private void showDialog(UserAdapter userAdapter, int i) {
@@ -85,6 +86,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
                 (dialog, which) -> {
                     presenter.deleteUser(((User) userAdapter.getItem(i)).getId());
                     userAdapter.deleteUser(i);
+                    binding.customGraphicsView.updateView(userAdapter.getUserList());
                 });
         alertDialog.show();
     }
