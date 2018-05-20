@@ -4,5 +4,5 @@ import com.example.user.Timer.presentation.mvp.BasePresenter;
 
 
 public interface ClockViewPresenter extends BasePresenter<ClockViewView> {
-    void save(String value);
+    void save(int value);
 }

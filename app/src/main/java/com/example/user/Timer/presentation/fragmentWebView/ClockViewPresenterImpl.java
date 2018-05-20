@@ -33,9 +33,9 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
     }
 
     @Override
-    public void save(String value) {
+    public void save(int value) {
         User user = new User();
-        user.setTime(Integer.parseInt(value));
+        user.setTime(value);
         Calendar cal = Calendar.getInstance();
         user.setDate(String.valueOf(cal.getTimeInMillis()));
 

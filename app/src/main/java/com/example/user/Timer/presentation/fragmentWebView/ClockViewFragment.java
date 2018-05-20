@@ -2,6 +2,7 @@ package com.example.user.Timer.presentation.fragmentWebView;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.user.Timer.databinding.FragmentClockviewBinding;
 import com.example.user.Timer.presentation.App;
+import com.example.user.Timer.presentation.View.CircleSeekBarView;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 
@@ -41,7 +43,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
     }
 
     @Override
@@ -53,9 +54,20 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         binding.saveValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.save(binding.value.getText().toString());
+                presenter.save(binding.circleSeekBar.getProgress());
             }
         });
+        binding.circleSeekBar.setMaxProgress(60);
+        binding.circleSeekBar.setProgress(0);
+        binding.circleSeekBar.invalidate();
+        binding.circleSeekBar.setSeekBarChangeListener(new CircleSeekBarView.OnSeekChangeListener() {
+
+            @Override
+            public void onProgressChange(CircleSeekBarView view, int newProgress) {
+             }
+        });
+
+
         return binding.getRoot();
     }
 

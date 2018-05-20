@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
     @Override
     protected void onStart() {
         super.onStart();
-
-    }
+            }
 
     @Override
     public void showEditFragment(Bundle bundle) {
