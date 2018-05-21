@@ -2,7 +2,6 @@ package com.example.user.Timer.presentation.fragmentWebView;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.example.user.Timer.databinding.FragmentClockviewBinding;
 import com.example.user.Timer.presentation.App;
-import com.example.user.Timer.presentation.View.CircleSeekBarView;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 

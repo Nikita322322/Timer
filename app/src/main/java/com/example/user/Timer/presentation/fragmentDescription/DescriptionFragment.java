@@ -79,7 +79,8 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
 
     private void showDialog(UserAdapter userAdapter, int i) {
         AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-        alertDialog.setMessage(getResources().getString(R.string.Delete_this_Item));
+        alertDialog.setTitle(getResources().getString(R.string.Delete_this_Item));
+        alertDialog.setIcon(R.drawable.f5da366372b5ca66c0de5fd61b6d9bde);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.NO),
                 (dialogInterface, i1) -> dialogInterface.dismiss());
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.YES),

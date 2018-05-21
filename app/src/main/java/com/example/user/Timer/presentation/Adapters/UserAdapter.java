@@ -78,9 +78,9 @@ public class UserAdapter extends BaseAdapter {
     private String getDate(String milliseconds) {
         Calendar cl = Calendar.getInstance();
         cl.setTimeInMillis(Long.parseLong(milliseconds));  //here your time in miliseconds
-        //String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+        String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
         String time = "" + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
-        return time;
+        return date +" "+ time;
     }
 
     public List<User> getUserList() {

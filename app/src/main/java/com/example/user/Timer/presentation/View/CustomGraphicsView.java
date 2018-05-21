@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -24,21 +23,16 @@ import com.example.user.Timer.dataLayer.store.models.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
-/**
- * Created by User on 06.11.2017.
- */
 
 public class CustomGraphicsView extends View {
 
-    private final int indent = 5;
+    private final int indent = 5;//dp
     private int mWidth;
     private int mHeight;
     private Paint paint;
     public RectF drawableRect;
     Palette palette;
-    private int amountTypeOfNote;
+    private int amountNote;
     private List<ViewModel> columns = new ArrayList<>();
     private List<Integer> setScaleLength = new ArrayList<>();
 
@@ -67,40 +61,33 @@ public class CustomGraphicsView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-
+        paint.setColor(Color.RED);
+        canvas.drawLine(0, 0, mWidth, 0, paint);
         for (ViewModel viewModell : columns) {
-            paint.setColor(palette.blueColor);
+            paint.setColor(palette.grayColor);
 
-            drawableRect.left = viewModell.startX;
+            drawableRect.left = viewModell.startX + indent * metrics.density;
             drawableRect.top = viewModell.startY;
-            if (amountTypeOfNote == 1) {
-                drawableRect.right = (drawableRect.left + getWidth() / amountTypeOfNote);
-
-            } else {
-                drawableRect.right = (drawableRect.left + getWidth() / amountTypeOfNote - indent * metrics.density);
-            }
+            drawableRect.right = (drawableRect.left + mWidth / amountNote - 2 * (indent * metrics.density));
             drawableRect.bottom = (viewModell.endY);
             canvas.drawRect(drawableRect, paint);
 
-            paint.setColor(palette.redColor);
-            paint.setTextLocale(Locale.ENGLISH);
-            paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
-            setTextSizeForWidth(paint, (mWidth / amountTypeOfNote - indent * getResources().getDisplayMetrics().density), viewModell.height, viewModell.name);
-            canvas.drawText(viewModell.name, viewModell.startX - indent * getResources().getDisplayMetrics().density / 2, mHeight, paint);
+            paint.setColor(palette.blackColor);
 
+            setTextSizeForWidth(paint, drawableRect.right - drawableRect.left, viewModell.height, viewModell.name);
+            canvas.drawText(viewModell.name, drawableRect.left, mHeight, paint);
         }
+        columns.clear();
     }
 
     private void setTextSizeForWidth(Paint paint, float desiredWidth, float desiredHeight,
                                      String text) {
         final float testTextSize = 35f;
 
-        // Get the bounds of the text, using  testTextSize.
         paint.setTextSize(testTextSize);
         Rect bounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), bounds);
 
-        // Calculate the desired size as a proportion of our testTextSize
         float desiredTextSizeWidth = testTextSize * ((desiredWidth) / (bounds.width()));
 
         float desiredTextSizeHeight = testTextSize * ((desiredHeight) / bounds.height());
@@ -110,7 +97,6 @@ public class CustomGraphicsView extends View {
         } else {
             paint.setTextSize(desiredTextSizeWidth);
         }
-
     }
 
     public void updateView(List<User> graphicsModelList) {
@@ -124,7 +110,7 @@ public class CustomGraphicsView extends View {
             }
         }
         if (maxValue != 0) {
-            amountTypeOfNote = graphicsModelList.size();
+            amountNote = graphicsModelList.size();
 
             ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 100);
             valueAnimator.setDuration(1000);
@@ -141,7 +127,7 @@ public class CustomGraphicsView extends View {
                     }
 
                     for (int i = 0; i < setScaleLength.size(); i++) {
-                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountTypeOfNote, mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), graphicsModelList.get(i).getId(), Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)));
+                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote, mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)));
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -172,8 +158,8 @@ public class CustomGraphicsView extends View {
     }
 
     class Palette {
-        int redColor = Color.RED;
-        int blueColor = Color.BLUE;
+        int blackColor = Color.BLACK;
+        int grayColor = Color.GRAY;
     }
 
     class ViewModel {
@@ -182,15 +168,13 @@ public class CustomGraphicsView extends View {
         int startY;
         int endY;
         String name;
-        long id;
         int height;
 
-        public ViewModel(int startX, int startY, int endY, String name, long id, int height) {
+        public ViewModel(int startX, int startY, int endY, String name, int height) {
             this.startX = startX;
             this.startY = startY;
             this.endY = endY;
             this.name = name;
-            this.id = id;
             this.height = height;
         }
 

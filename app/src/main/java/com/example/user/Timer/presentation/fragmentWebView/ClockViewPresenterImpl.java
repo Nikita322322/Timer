@@ -1,7 +1,7 @@
 package com.example.user.Timer.presentation.fragmentWebView;
 
-import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.domainLayer.interactors.SaveValueInteractor;
+import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 import com.example.user.Timer.presentation.mvp.BasePresenterImpl;
 
 
@@ -34,13 +34,13 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
 
     @Override
     public void save(int value) {
-        User user = new User();
+        ModelInPresentationLayer user = new ModelInPresentationLayer();
         user.setTime(value);
         Calendar cal = Calendar.getInstance();
         user.setDate(String.valueOf(cal.getTimeInMillis()));
 
-        saveValueInteractor.execute(user).subscribe(aBoolean -> {
+        addDisposable(saveValueInteractor.execute(user).subscribe(aBoolean -> {
 
-        }, Throwable::printStackTrace);
+        }, Throwable::printStackTrace));
     }
 }

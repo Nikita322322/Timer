@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.dataLayer.store.local.LocalStore;
 
+import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 import com.example.user.Timer.injection.App.user.UserScope;
 import java.util.List;
 
@@ -30,9 +31,11 @@ public class RepositoryImpl implements Repository {
     }
 
 
-
     @Override
-    public Observable<Boolean> saveUser(User user) {
+    public Observable<Boolean> saveUser(ModelInDomainLayer modelInDomainLayer) {
+        User user = new User();
+        user.setDate(modelInDomainLayer.getDate());
+        user.setTime(modelInDomainLayer.getTime());
         return localStore.saveUser(user);
     }
 
@@ -43,6 +46,6 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public Observable<Boolean> deleteUser(long id) {
-        return  localStore.deleteUser(id);
+        return localStore.deleteUser(id);
     }
 }
