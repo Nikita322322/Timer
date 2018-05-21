@@ -8,6 +8,26 @@
         android:orientation="vertical"
         tools:context="com.example.timer.presentation.fragmentWebView.activity.MainActivity">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/set_limit"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/limitEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number" />
+        </LinearLayout>
+
         <com.example.user.Timer.presentation.View.CircleSeekBarView
             android:id="@+id/circleSeekBar"
             android:layout_width="match_parent"
@@ -23,21 +43,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:inputType="number"
                 android:text="88" />
 
             <Button
-                android:id="@+id/saveValue"
+                android:id="@+id/saveValueButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="@string/save" />
 
             <Button
-                android:id="@+id/change"
+                android:id="@+id/changeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="-0.5"
                 android:text="@string/change" />
+
+            <Button
+                android:id="@+id/stopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/stop" />
+
+            <Button
+                android:id="@+id/startButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start" />
 
         </LinearLayout>
 
