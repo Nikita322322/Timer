@@ -38,14 +38,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:inputType="number"
-                android:text="88" />
-
             <Button
                 android:id="@+id/saveValueButton"
                 android:layout_width="wrap_content"

@@ -72,15 +72,18 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                         subscription.dispose();
                     }
                     int maxProgress = Integer.parseInt(binding.limitEditText.getText().toString());
-                    binding.circleSeekBar.setMaxProgress(maxProgress);
+                    if (binding.circleSeekBar != null) {
+                        binding.circleSeekBar.setMaxProgress(maxProgress);
+                    }
                     Observable<Long> observable = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread());
                     subscription = observable
                             .subscribe(aLong -> {
-                                if (maxProgress >= aLong) {
-                                    //  binding.value.setText(String.valueOf(aLong));
-                                    binding.circleSeekBar.setProgress(aLong);
+                                if (maxProgress >= binding.circleSeekBar.getProgress() + 1) {
+                                    binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
                                     binding.circleSeekBar.invalidate();
                                 } else {
+                                    binding.circleSeekBar.setProgress(maxProgress);
+                                    binding.circleSeekBar.invalidate();
                                     Toast toast = Toast.makeText(getContext(), "Вы достигли цели!!!", Toast.LENGTH_LONG);
                                     toast.show();
                                     subscription.dispose();
@@ -100,16 +103,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                 }
             }
         });
-
-//        binding.circleSeekBar.setMaxProgress(60);
-//        binding.circleSeekBar.setProgress(0);
-//        binding.circleSeekBar.invalidate();
-//        binding.circleSeekBar.setSeekBarChangeListener(new CircleSeekBarView.OnSeekChangeListener() {
-//
-//            @Override
-//            public void onProgressChange(CircleSeekBarView view, int newProgress) {
-//             }
-//        });
 
         return binding.getRoot();
     }
@@ -131,7 +124,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
     @Override
     public void show(boolean b) {
-        binding.value.setText(String.valueOf(b));
     }
 
     @Override
