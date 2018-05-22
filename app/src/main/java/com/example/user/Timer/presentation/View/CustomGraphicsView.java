@@ -18,7 +18,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 
-import com.example.user.Timer.dataLayer.store.models.User;
+import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,7 +99,7 @@ public class CustomGraphicsView extends View {
         }
     }
 
-    public void updateView(List<User> graphicsModelList) {
+    public void updateView(List<ModelInPresentationLayer> graphicsModelList) {
         if (columns != null && columns.size() != 0) {
             columns.clear();
         }

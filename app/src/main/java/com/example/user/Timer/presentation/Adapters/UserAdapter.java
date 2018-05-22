@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.databinding.ItemInListBinding;
-import com.example.user.Timer.domainLayer.interactors.DeleteUserInteractor;
+import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +21,7 @@ import javax.inject.Inject;
 
 public class UserAdapter extends BaseAdapter {
     private Context context;
-    private List<User> userList;
+    private List<ModelInPresentationLayer> userList;
 
     @Inject
     public UserAdapter(Context context) {
@@ -56,7 +55,7 @@ public class UserAdapter extends BaseAdapter {
             binding = (ItemInListBinding) view.getTag();
         }
 
-        User item = (User) getItem(i);
+        ModelInPresentationLayer item = (ModelInPresentationLayer) getItem(i);
         binding.time.setText(String.valueOf(item.getTime()));
         binding.textViewDate.setText(getDate(item.getDate()));
         return binding.getRoot();
@@ -67,7 +66,7 @@ public class UserAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<ModelInPresentationLayer> userList) {
         if (userList != null) {
             this.userList = userList;
         } else {
@@ -83,7 +82,7 @@ public class UserAdapter extends BaseAdapter {
         return date +" "+ time;
     }
 
-    public List<User> getUserList() {
+    public List<ModelInPresentationLayer> getUserList() {
         return userList;
     }
 }

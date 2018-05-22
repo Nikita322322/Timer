@@ -19,9 +19,6 @@ public interface UserDao {
     List<User> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<User> users);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long save(User user);
 
     @Query("DELETE FROM user WHERE id = :userId")

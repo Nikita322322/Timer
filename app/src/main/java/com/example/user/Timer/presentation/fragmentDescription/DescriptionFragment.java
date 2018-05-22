@@ -12,6 +12,7 @@ import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.databinding.FragmentDescriptionBinding;
 import com.example.user.Timer.presentation.App;
 import com.example.user.Timer.presentation.Adapters.UserAdapter;
+import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 
@@ -69,7 +70,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     }
 
     @Override
-    public void showAllUsers(List<User> userList) {
+    public void showAllUsers(List<ModelInPresentationLayer> userList) {
         UserAdapter userAdapter = new UserAdapter(getContext());
         userAdapter.setUserList(userList);
         binding.listView.setAdapter(userAdapter);

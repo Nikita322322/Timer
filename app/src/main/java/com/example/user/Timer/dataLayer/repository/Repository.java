@@ -1,6 +1,5 @@
 package com.example.user.Timer.dataLayer.repository;
 
-import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 
 
@@ -16,7 +15,7 @@ public interface Repository {
 
     Observable<Boolean> saveUser(ModelInDomainLayer user);
 
-    Observable<List<User>> getAllUsers();
+    Observable<List<ModelInDomainLayer>> getAllUsers();
 
     Observable<Boolean> deleteUser(long id);
 }

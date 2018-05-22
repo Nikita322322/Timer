@@ -12,6 +12,12 @@ public class ModelInDomainLayer {
         this.date = date;
     }
 
+    public ModelInDomainLayer(long id, long time, String date) {
+        this.id = id;
+        this.time = time;
+        this.date = date;
+    }
+
     public long getId() {
         return id;
     }
