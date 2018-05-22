@@ -11,6 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -31,7 +32,9 @@
         <com.example.user.Timer.presentation.View.CircleSeekBarView
             android:id="@+id/circleSeekBar"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,36 +45,44 @@
                 android:id="@+id/saveValueButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
+                android:layout_weight="1"
                 android:text="@string/save" />
 
             <Button
                 android:id="@+id/changeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="-0.5"
+                android:layout_weight="1"
                 android:text="@string/change" />
 
             <Button
                 android:id="@+id/stopButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_weight="1"
                 android:text="@string/stop" />
 
             <Button
                 android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/start" />
 
+            <Button
+                android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/reset" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:text="" />
+            android:textAlignment="center"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </layout>

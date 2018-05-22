@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+import com.example.user.Timer.R;
 import com.example.user.Timer.databinding.FragmentClockviewBinding;
 import com.example.user.Timer.presentation.App;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
@@ -27,7 +28,8 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     FragmentClockviewBinding binding;
     @Inject
     public ClockViewPresenter presenter;
-    private Disposable subscription;
+    private Disposable subscription = null;
+    int time = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,10 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentClockviewBinding.inflate(inflater, container, false);
-
         binding.changeButton.setOnClickListener(view -> {
             mainRouter.showEditFragment(null);
         });
+
         binding.saveValueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,32 +69,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         binding.startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!binding.limitEditText.getText().toString().equals("")) {
-                    if (subscription != null && !subscription.isDisposed()) {
-                        subscription.dispose();
-                    }
-                    int maxProgress = Integer.parseInt(binding.limitEditText.getText().toString());
-                    if (binding.circleSeekBar != null) {
-                        binding.circleSeekBar.setMaxProgress(maxProgress);
-                    }
-                    Observable<Long> observable = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread());
-                    subscription = observable
-                            .subscribe(aLong -> {
-                                if (maxProgress >= binding.circleSeekBar.getProgress() + 1) {
-                                    binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
-                                    binding.circleSeekBar.invalidate();
-                                } else {
-                                    binding.circleSeekBar.setProgress(maxProgress);
-                                    binding.circleSeekBar.invalidate();
-                                    Toast toast = Toast.makeText(getContext(), "Вы достигли цели!!!", Toast.LENGTH_LONG);
-                                    toast.show();
-                                    subscription.dispose();
-                                }
-                            });
-                } else {
-                    Toast toast = Toast.makeText(getContext(), "Введите лимит", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+                startTimer();
             }
         });
         binding.stopButton.setOnClickListener(new View.OnClickListener() {
@@ -103,13 +80,63 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                 }
             }
         });
-
+        binding.resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetTimer();
+            }
+        });
         return binding.getRoot();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void startTimer() {
+        if (!binding.limitEditText.getText().toString().trim().equals("")) {
+            if (subscription == null) {
+                final int[] maxProgress = {Integer.parseInt(binding.limitEditText.getText().toString())};
+                time = maxProgress[0];
+            }
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+            subscription = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> {
+                        if (time >= binding.circleSeekBar.getProgress() + 1) {
+                            if (binding.circleSeekBar.getProgress() + 1 == 60) {
+                                time -= 60;
+                                binding.textView.setText("Прошла одна минута, оставшееся время- " + String.valueOf(time) + "секунд");
+                                binding.circleSeekBar.setProgress(60);
+                                binding.circleSeekBar.invalidate();
+                                binding.circleSeekBar.setProgress(0);
+                            } else {
+                                binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
+                                binding.circleSeekBar.invalidate();
+                            }
+                        } else {
+                            if (binding.circleSeekBar.getProgress() == time) {
+                                binding.textView.setText("");
+                                Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
+                                toast.show();
+                                subscription.dispose();
+                            } else {
+                                binding.circleSeekBar.setProgress(1);
+                                binding.circleSeekBar.invalidate();
+                            }
+                        }
+                    });
+        } else {
+            Toast toast = Toast.makeText(getContext(), R.string.limit, Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    private void resetTimer() {
+        binding.limitEditText.setText("");
+        binding.circleSeekBar.setProgress(0);
+        binding.circleSeekBar.invalidate();
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
+        }
+        subscription = null;
     }
 
     @Override
