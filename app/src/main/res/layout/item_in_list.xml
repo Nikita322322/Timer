@@ -15,6 +15,7 @@
             android:textColor="@color/colorBlack"
             android:layout_marginLeft="8dp"
             android:id="@+id/time"
+            android:layout_marginBottom="3dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:textSize="20sp" />
@@ -26,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:layout_marginBottom="3dp"
             android:gravity="end|bottom"
             android:textAlignment="viewEnd"
             android:textSize="15sp" />

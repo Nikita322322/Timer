@@ -29,7 +29,6 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override
@@ -40,7 +39,6 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
         user.setDate(String.valueOf(cal.getTimeInMillis()));
 
         addDisposable(saveValueInteractor.execute(user).subscribe(aBoolean -> {
-
         }, Throwable::printStackTrace));
     }
 }

@@ -1,6 +1,5 @@
 package com.example.user.Timer.dataLayer.repository;
 
-import android.content.Context;
 
 import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.dataLayer.store.local.LocalStore;
@@ -22,13 +21,11 @@ import io.reactivex.Observable;
 public class RepositoryImpl implements Repository {
 
     private final LocalStore localStore;
-    private final Context context;
     private final TransformerInDomainLayer transformerInDomainLayer;
 
     @Inject
-    public RepositoryImpl(LocalStore localStore, Context context, TransformerInDomainLayer transformerInDomainLayer) {
+    RepositoryImpl(LocalStore localStore, TransformerInDomainLayer transformerInDomainLayer) {
         this.localStore = localStore;
-        this.context = context;
         this.transformerInDomainLayer = transformerInDomainLayer;
     }
 

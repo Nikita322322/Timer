@@ -1,5 +1,6 @@
 package com.example.user.Timer.presentation.fragmentDescription;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -44,7 +45,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDescriptionBinding.inflate(inflater, container, false);
-
         return binding.getRoot();
     }
 
@@ -86,7 +86,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
                 (dialogInterface, i1) -> dialogInterface.dismiss());
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.YES),
                 (dialog, which) -> {
-                    presenter.deleteUser(((User) userAdapter.getItem(i)).getId());
+                    presenter.deleteUser(((ModelInPresentationLayer) userAdapter.getItem(i)).getId());
                     userAdapter.deleteUser(i);
                     binding.customGraphicsView.updateView(userAdapter.getUserList());
                 });

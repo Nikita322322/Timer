@@ -21,7 +21,7 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
     @Override
     protected void onViewAttached() {
         addDisposable(getAllUsersInteractor.execute(null).subscribe(users -> {
-            if (users != null) {
+            if (isViewAttached() && users != null) {
                 view.showAllUsers(users);
             }
         }, Throwable::printStackTrace));
@@ -30,7 +30,6 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
     @Override
     public void deleteUser(Long id) {
         addDisposable(deleteUserInteractor.execute(id).subscribe(aBoolean -> {
-                }, Throwable::printStackTrace
-        ));
+        }, Throwable::printStackTrace));
     }
 }

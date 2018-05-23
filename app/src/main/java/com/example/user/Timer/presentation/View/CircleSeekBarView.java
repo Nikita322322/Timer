@@ -56,7 +56,7 @@ public class CircleSeekBarView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w; // Get View Width
         height = h;// Get View Height
-        int size = (width > height) ? height : width; // Choose the smaller
+        int size = (width > height) ? height : width; //  smaller
         cx = width / 2; // Center X for circle
         cy = height / 2; // Center Y for circle
         outerRadius = size / 2; // Radius of the outer circle

@@ -62,9 +62,12 @@ public class CustomGraphicsView extends View {
     protected void onDraw(Canvas canvas) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         paint.setColor(Color.RED);
-        canvas.drawLine(0, 0, mWidth, 0, paint);
+        if (columns.size() != 0) {
+            canvas.drawLine(indent * metrics.density, 0, mWidth - indent * metrics.density, 0, paint);
+        }
         for (ViewModel viewModell : columns) {
-            paint.setColor(palette.grayColor);
+
+            paint.setColor(viewModell.color);
 
             drawableRect.left = viewModell.startX + indent * metrics.density;
             drawableRect.top = viewModell.startY;
@@ -74,7 +77,7 @@ public class CustomGraphicsView extends View {
 
             paint.setColor(palette.blackColor);
 
-            setTextSizeForWidth(paint, drawableRect.right - drawableRect.left, viewModell.height, viewModell.name);
+            setTextSizeForWidth(paint, drawableRect.right - drawableRect.left, drawableRect.bottom, viewModell.name);
             canvas.drawText(viewModell.name, drawableRect.left, mHeight, paint);
         }
         columns.clear();
@@ -104,6 +107,7 @@ public class CustomGraphicsView extends View {
             columns.clear();
         }
         int maxValue = -1;
+        final int[] j = {0};
         for (int i = 0; i < graphicsModelList.size(); i++) {
             if (graphicsModelList.get(i).getTime() > maxValue) {
                 maxValue = (int) graphicsModelList.get(i).getTime();
@@ -127,7 +131,7 @@ public class CustomGraphicsView extends View {
                     }
 
                     for (int i = 0; i < setScaleLength.size(); i++) {
-                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote, mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)));
+                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote, mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), palette.colors[2]);
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -158,8 +162,11 @@ public class CustomGraphicsView extends View {
     }
 
     class Palette {
+        int[] colors = {Color.parseColor("#eceff1"), Color.parseColor("#cfd8dc"), Color.parseColor("#b0bec5"),
+                Color.parseColor("#90a4ae"), Color.parseColor("#78909c"), Color.parseColor("#607d8b"),
+                Color.parseColor("#546e7a"), Color.parseColor("#455a64"), Color.parseColor("#37474f")};
         int blackColor = Color.BLACK;
-        int grayColor = Color.GRAY;
+        int grayColor = Color.parseColor("#ff33b5e5");
     }
 
     class ViewModel {
@@ -168,14 +175,14 @@ public class CustomGraphicsView extends View {
         int startY;
         int endY;
         String name;
-        int height;
+        int color;
 
-        public ViewModel(int startX, int startY, int endY, String name, int height) {
+        public ViewModel(int startX, int startY, int endY, String name, int color) {
             this.startX = startX;
             this.startY = startY;
             this.endY = endY;
             this.name = name;
-            this.height = height;
+            this.color = color;
         }
 
     }

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
             }
 
     @Override
-    public void showEditFragment(Bundle bundle) {
+    public void showDescriptionFragment(Bundle bundle) {
         showFragment(new DescriptionFragment(), bundle);
     }
 

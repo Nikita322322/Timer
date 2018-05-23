@@ -85,7 +85,6 @@ public class LocalStore {
                 } else {
                     subscriber.onNext(false);
                 }
-
             } catch (Exception e) {
                 subscriber.onError(e);
             } finally {

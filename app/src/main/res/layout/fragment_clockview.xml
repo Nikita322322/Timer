@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -38,51 +39,91 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal">
+
+            <Space
+                android:layout_width="3dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/saveValueButton"
+                style="@style/AppTheme.RoundedCornerMaterialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/save" />
+                android:text="@string/save"
+                android:textColor="@color/colorBlack" />
 
-            <Button
-                android:id="@+id/changeButton"
-                android:layout_width="wrap_content"
+            <Space
+                android:layout_width="3dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/change" />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/stopButton"
+                style="@style/AppTheme.RoundedCornerMaterialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/stop" />
+                android:text="@string/stop"
+                android:textColor="@color/colorBlack" />
+
+            <Space
+                android:layout_width="3dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/startButton"
+                style="@style/AppTheme.RoundedCornerMaterialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/start" />
+                android:text="@string/start"
+                android:textColor="@color/colorBlack" />
+
+            <Space
+                android:layout_width="3dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/resetButton"
+                style="@style/AppTheme.RoundedCornerMaterialButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/reset" />
+                android:text="@string/reset"
+                android:textColor="@color/colorBlack" />
+
+            <Space
+                android:layout_width="3dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
             android:textAlignment="center"
             android:textSize="14sp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/changeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/change"
+            app:backgroundTint="#ff33b5e5"
+            app:srcCompat="@android:drawable/ic_dialog_info" />
 
     </LinearLayout>
 </layout>

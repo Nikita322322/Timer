@@ -7,7 +7,7 @@ public class ModelInDomainLayer {
 
     private String date;
 
-    public ModelInDomainLayer( long time, String date) {
+    public ModelInDomainLayer(long time, String date) {
         this.time = time;
         this.date = date;
     }

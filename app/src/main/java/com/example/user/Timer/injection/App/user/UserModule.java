@@ -19,12 +19,12 @@ public class UserModule {
     }
 
     @Provides
-    ClockViewPresenter provideFragmentWebView(ClockViewPresenterImpl presenter) {
+    ClockViewPresenter provideFragmentClockView(ClockViewPresenterImpl presenter) {
         return presenter;
     }
 
     @Provides
-    DescriptionPresenter provideFragmentEditPropertiesPresenter(DescriptionPresenterImpl presenter) {
+    DescriptionPresenter provideFragmentDescriptionPresenter(DescriptionPresenterImpl presenter) {
         return presenter;
     }
 

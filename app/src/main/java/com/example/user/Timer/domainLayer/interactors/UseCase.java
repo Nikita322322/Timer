@@ -13,6 +13,6 @@ public abstract class UseCase<Input, Output> {
     public Observable<Output> execute(Input arg) {
         return buildUseCase(arg)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.newThread());
     }
 }

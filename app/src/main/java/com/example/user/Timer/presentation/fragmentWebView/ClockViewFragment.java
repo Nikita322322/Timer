@@ -1,5 +1,6 @@
 package com.example.user.Timer.presentation.fragmentWebView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     public ClockViewPresenter presenter;
     private Disposable subscription = null;
     int time = 0;
+    int maxProgress = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,17 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentClockviewBinding.inflate(inflater, container, false);
         binding.changeButton.setOnClickListener(view -> {
-            mainRouter.showEditFragment(null);
+            mainRouter.showDescriptionFragment(null);
         });
 
         binding.saveValueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.save(binding.circleSeekBar.getProgress());
+                if (binding.circleSeekBar.getProgress() == time) {
+                    presenter.save(maxProgress);
+                }else {
+                    presenter.save(maxProgress-time+binding.circleSeekBar.getProgress());
+                }
             }
         });
         binding.startButton.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +98,8 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     private void startTimer() {
         if (!binding.limitEditText.getText().toString().trim().equals("")) {
             if (subscription == null) {
-                final int[] maxProgress = {Integer.parseInt(binding.limitEditText.getText().toString())};
-                time = maxProgress[0];
+                maxProgress = Integer.parseInt(binding.limitEditText.getText().toString());
+                time = maxProgress;
             }
             if (subscription != null && !subscription.isDisposed()) {
                 subscription.dispose();
@@ -108,6 +114,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                                 binding.circleSeekBar.invalidate();
                                 binding.circleSeekBar.setProgress(0);
                             } else {
+
                                 binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
                                 binding.circleSeekBar.invalidate();
                             }
@@ -131,6 +138,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
     private void resetTimer() {
         binding.limitEditText.setText("");
+        maxProgress = 0;
         binding.circleSeekBar.setProgress(0);
         binding.circleSeekBar.invalidate();
         if (subscription != null && !subscription.isDisposed()) {
