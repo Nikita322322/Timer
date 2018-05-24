@@ -20,9 +20,7 @@ import android.view.View;
 
 public class CircleSeekBarView extends View {
     private int angle = 0;
-    private int barWidth = 5;
-    private int width;
-    private int height;
+    private final int barWidth = 5;
     private int maxProgress = 60;
     private int progress;
     private float innerRadius;
@@ -54,11 +52,9 @@ public class CircleSeekBarView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        width = w; // Get View Width
-        height = h;// Get View Height
-        int size = (width > height) ? height : width; //  smaller
-        cx = width / 2; // Center X for circle
-        cy = height / 2; // Center Y for circle
+        int size = (w > h) ? h : w; //  smaller
+        cx = w / 2; // Center X for circle
+        cy = h / 2; // Center Y for circle
         outerRadius = size / 2; // Radius of the outer circle
         innerRadius = outerRadius - barWidth; // Radius of the inner circle
     }
@@ -69,7 +65,8 @@ public class CircleSeekBarView extends View {
         int startAngle = 270;
         @SuppressLint("DrawAllocation")
         RectF rect = new RectF(cx - outerRadius, cy - outerRadius, cx + outerRadius, cy + outerRadius);
-        canvas.drawArc(rect, startAngle, angle, true, paintHolder.getInnerCirclePaint());
+        canvas.drawArc(rect, startAngle, angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
+        // canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
         @SuppressLint("DrawAllocation")
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInPixels(14));
@@ -187,6 +184,11 @@ public class CircleSeekBarView extends View {
         }
 
         Paint getInnerCirclePaint() {
+            return innerCirclePaint;
+        }
+
+        Paint getInnerCirclePaint(int color) {
+            innerCirclePaint.setColor(color);
             return innerCirclePaint;
         }
 

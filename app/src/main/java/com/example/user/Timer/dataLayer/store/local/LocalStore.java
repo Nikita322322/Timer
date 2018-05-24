@@ -22,10 +22,11 @@ import io.reactivex.Observable;
 
 public class LocalStore {
     private AppDatabase mDb;
+    private final String DATABASE_NAME = "user-database";
 
     @Inject
     public LocalStore(Context context) {
-        mDb = Room.databaseBuilder(context, AppDatabase.class, "user-database").build(); // Get an Instance of AppDatabase class
+        mDb = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build(); // Get an Instance of AppDatabase class
     }
 
     public Observable<Boolean> saveUser(User user) {
