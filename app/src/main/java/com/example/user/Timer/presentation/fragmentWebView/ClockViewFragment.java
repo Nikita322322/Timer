@@ -1,11 +1,12 @@
 package com.example.user.Timer.presentation.fragmentWebView;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 
@@ -66,9 +67,9 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             @Override
             public void onClick(View view) {
                 if (binding.circleSeekBar.getProgress() == time) {
-                    presenter.save(maxProgress);
-                }else {
-                    presenter.save(maxProgress-time+binding.circleSeekBar.getProgress());
+                    presenter.save(maxProgress, maxProgress);
+                } else {
+                    presenter.save(maxProgress - time + binding.circleSeekBar.getProgress(), maxProgress);
                 }
             }
         });
@@ -93,6 +94,20 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             }
         });
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mainRouter.showNavigationButton(false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.navigation_button_animation);
+        binding.changeButton.startAnimation(animation);
+        animation.cancel();
     }
 
     private void startTimer() {

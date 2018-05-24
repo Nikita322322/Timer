@@ -20,6 +20,16 @@ public class User {
 
     private String date;
 
+    private long goal;
+
+    public long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(long goal) {
+        this.goal = goal;
+    }
+
     public long getId() {
         return id;
     }

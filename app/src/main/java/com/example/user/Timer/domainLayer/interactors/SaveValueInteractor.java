@@ -20,7 +20,7 @@ public class SaveValueInteractor extends UseCase<ModelInPresentationLayer, Boole
 
     @Override
     protected Observable<Boolean> buildUseCase(ModelInPresentationLayer arg) {
-        ModelInDomainLayer modelInDomainLayer = new ModelInDomainLayer(arg.getTime(), arg.getDate());
+        ModelInDomainLayer modelInDomainLayer = new ModelInDomainLayer(arg.getTime(), arg.getDate(),arg.getGoal());
 
         return repository.saveUser(modelInDomainLayer);
     }

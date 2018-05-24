@@ -28,7 +28,8 @@ public class TransformerInDomainLayer {
                         new ModelInDomainLayer(
                                 model.getId(),
                                 model.getTime(),
-                                model.getDate()
+                                model.getDate(),
+                                model.getGoal()
                         )
                 );
             }

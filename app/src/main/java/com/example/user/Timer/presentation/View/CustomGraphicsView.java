@@ -35,6 +35,7 @@ public class CustomGraphicsView extends View {
     private int amountNote;
     private List<ViewModel> columns = new ArrayList<>();
     private List<Integer> setScaleLength = new ArrayList<>();
+    private final int rounding = 5;
 
     public CustomGraphicsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -73,7 +74,7 @@ public class CustomGraphicsView extends View {
             drawableRect.top = viewModell.startY;
             drawableRect.right = (drawableRect.left + mWidth / amountNote - 2 * (indent * metrics.density));
             drawableRect.bottom = (viewModell.endY);
-            canvas.drawRect(drawableRect, paint);
+            canvas.drawRoundRect(drawableRect, rounding, rounding, paint);
 
             paint.setColor(palette.blackColor);
 
@@ -131,7 +132,8 @@ public class CustomGraphicsView extends View {
                     }
 
                     for (int i = 0; i < setScaleLength.size(); i++) {
-                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote, mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), palette.colors[2]);
+                        ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote,
+                                mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), palette.blueColor);
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -166,6 +168,7 @@ public class CustomGraphicsView extends View {
                 Color.parseColor("#90a4ae"), Color.parseColor("#78909c"), Color.parseColor("#607d8b"),
                 Color.parseColor("#546e7a"), Color.parseColor("#455a64"), Color.parseColor("#37474f")};
         int blackColor = Color.BLACK;
+        int blueColor=Color.parseColor("#ff33b5e5");
         int grayColor = Color.parseColor("#ff33b5e5");
     }
 

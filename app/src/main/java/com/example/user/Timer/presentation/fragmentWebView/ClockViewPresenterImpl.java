@@ -32,9 +32,10 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
     }
 
     @Override
-    public void save(int value) {
+    public void save(int value, long maxValue) {
         ModelInPresentationLayer user = new ModelInPresentationLayer();
         user.setTime(value);
+        user.setGoal(maxValue);
         Calendar cal = Calendar.getInstance();
         user.setDate(String.valueOf(cal.getTimeInMillis()));
 

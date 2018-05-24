@@ -7,15 +7,27 @@ public class ModelInDomainLayer {
 
     private String date;
 
-    public ModelInDomainLayer(long time, String date) {
+    private long goal;
+
+    public ModelInDomainLayer(long time, String date, long goal) {
         this.time = time;
         this.date = date;
+        this.goal = goal;
     }
 
-    public ModelInDomainLayer(long id, long time, String date) {
+    public ModelInDomainLayer(long id, long time, String date,long goal) {
         this.id = id;
         this.time = time;
         this.date = date;
+        this.goal=goal;
+    }
+
+    public long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(long goal) {
+        this.goal = goal;
     }
 
     public long getId() {

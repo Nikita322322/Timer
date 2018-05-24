@@ -35,6 +35,7 @@ public class RepositoryImpl implements Repository {
         User user = new User();
         user.setDate(modelInDomainLayer.getDate());
         user.setTime(modelInDomainLayer.getTime());
+        user.setGoal(modelInDomainLayer.getGoal());
         return localStore.saveUser(user);
     }
 

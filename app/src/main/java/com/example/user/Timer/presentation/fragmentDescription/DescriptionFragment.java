@@ -51,6 +51,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mainRouter.showNavigationButton(true);
 
     }
 

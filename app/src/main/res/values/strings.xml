@@ -11,10 +11,10 @@
     <string name="search">что искать?</string>
     <string name="change">go</string>
     <string name="save">Save</string>
-    <string name="set_limit">set limit:</string>
+    <string name="set_limit">set limit(goal):</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
-    <string name="finish">Вы достигли цели!!!</string>
+    <string name="finish">time is out!!!</string>
     <string name="limit">Введите лимит</string>
     <string name="reset">reset</string>
 </resources>

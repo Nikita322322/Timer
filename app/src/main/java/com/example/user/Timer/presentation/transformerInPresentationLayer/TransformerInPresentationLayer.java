@@ -26,7 +26,8 @@ public class TransformerInPresentationLayer {
                         new ModelInPresentationLayer(
                                 model.getId(),
                                 model.getTime(),
-                                model.getDate()
+                                model.getDate(),
+                                model.getGoal()
                         )
                 );
             }

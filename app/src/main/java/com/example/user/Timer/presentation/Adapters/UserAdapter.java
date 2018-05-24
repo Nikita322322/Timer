@@ -1,11 +1,13 @@
 package com.example.user.Timer.presentation.Adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.user.Timer.R;
 import com.example.user.Timer.databinding.ItemInListBinding;
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
@@ -56,8 +58,13 @@ public class UserAdapter extends BaseAdapter {
         }
 
         ModelInPresentationLayer item = (ModelInPresentationLayer) getItem(i);
-        binding.time.setText(String.valueOf(item.getTime()));
+        binding.time.setText(String.valueOf(item.getTime()) + "(goal is " + String.valueOf(item.getGoal()) + ")");
         binding.textViewDate.setText(getDate(item.getDate()));
+        if (item.getTime() < item.getGoal()) {
+            binding.image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_checkbox_state_true));
+        } else {
+            binding.image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_checkbox_state));
+        }
         return binding.getRoot();
     }
 
@@ -79,7 +86,7 @@ public class UserAdapter extends BaseAdapter {
         cl.setTimeInMillis(Long.parseLong(milliseconds));  //here your time in miliseconds
         String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
         String time = "" + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
-        return date +" "+ time;
+        return date + " " + time;
     }
 
     public List<ModelInPresentationLayer> getUserList() {

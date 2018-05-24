@@ -7,13 +7,24 @@ public class ModelInPresentationLayer {
 
     private String date;
 
+    private long goal;
+
     public ModelInPresentationLayer() {
     }
 
-    public ModelInPresentationLayer(long id, long time, String date) {
+    public ModelInPresentationLayer(long id, long time, String date,long goal) {
         this.id = id;
         this.time = time;
         this.date = date;
+        this.goal = goal;
+    }
+
+    public long getGoal() {
+        return goal;
+    }
+
+    public void setGoal(long goal) {
+        this.goal = goal;
     }
 
     public long getId() {
