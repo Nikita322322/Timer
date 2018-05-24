@@ -53,9 +53,9 @@ public class CircleSeekBarView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         int size = (w > h) ? h : w; //  smaller
-        cx = w / 2; // Center X for circle
+        cx = w / 2 ; // Center X for circle
         cy = h / 2; // Center Y for circle
-        outerRadius = size / 2; // Radius of the outer circle
+        outerRadius = (size) / 2; // Radius of the outer circle
         innerRadius = outerRadius - barWidth; // Radius of the inner circle
     }
 
@@ -66,12 +66,16 @@ public class CircleSeekBarView extends View {
         @SuppressLint("DrawAllocation")
         RectF rect = new RectF(cx - outerRadius, cy - outerRadius, cx + outerRadius, cy + outerRadius);
         canvas.drawArc(rect, startAngle, angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
-        // canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
+        //canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
+        //float endX = (float) (Math.cos(Math.toRadians(270 + angle)) * outerRadius + cx);
+        //float endY = (float) (Math.sin(Math.toRadians(270 + angle)) * outerRadius + cy);
+        //canvas.drawCircle(endX, endY, 10, paintHolder.getInnerCirclePaint(Color.BLACK));
         @SuppressLint("DrawAllocation")
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInPixels(14));
         textPaint.getTextBounds(String.valueOf(text), 0, String.valueOf(text).length(), bounds);
         canvas.drawText(String.valueOf(text), cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
+
         super.onDraw(canvas);
     }
 
@@ -125,7 +129,8 @@ public class CircleSeekBarView extends View {
         float distance = (float) Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
         float adjustmentFactor = 100;
         if (distance < outerRadius + adjustmentFactor && distance > innerRadius - adjustmentFactor && !up) {
-
+            //     markPointX = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
+            //   markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
             float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
             // and to make it count 0-360
             if (degrees < 0) {

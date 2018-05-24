@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.user.Timer"
     android:installLocation="internalOnly"
+    android:hardwareAccelerated="false"
     >
 
     <uses-permission
