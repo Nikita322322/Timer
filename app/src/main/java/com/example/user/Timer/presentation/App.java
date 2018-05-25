@@ -12,13 +12,11 @@ public class App extends Application {
     private static com.example.user.Timer.injection.App.AppComponent component;
     private static UserComponent userComponent;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
     }
-
 
     public static com.example.user.Timer.injection.App.AppComponent getAppComponent() {
         if (component == null) {

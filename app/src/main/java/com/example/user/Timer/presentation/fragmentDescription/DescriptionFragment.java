@@ -1,6 +1,5 @@
 package com.example.user.Timer.presentation.fragmentDescription;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 
 
 import com.example.user.Timer.R;
-import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.databinding.FragmentDescriptionBinding;
 import com.example.user.Timer.presentation.App;
 import com.example.user.Timer.presentation.Adapters.UserAdapter;
@@ -35,13 +33,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         App.getUserComponent().inject(this);
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDescriptionBinding.inflate(inflater, container, false);
@@ -52,7 +43,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mainRouter.showNavigationButton(true);
-
     }
 
     @Override
@@ -63,11 +53,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     protected BaseView getBaseView() {
         return this;
-    }
-
-    @Override
-    public void goWebFragment() {
-        mainRouter.showWebFragment();
     }
 
     @Override

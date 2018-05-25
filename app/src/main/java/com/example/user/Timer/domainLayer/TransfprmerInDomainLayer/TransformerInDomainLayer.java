@@ -2,6 +2,7 @@ package com.example.user.Timer.domainLayer.TransfprmerInDomainLayer;
 
 import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
+import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,4 +37,8 @@ public class TransformerInDomainLayer {
             return userModelList;
         }
     };
+
+    public ModelInDomainLayer transformPresentationModelToDomain(ModelInPresentationLayer modelInPresentationLayer) {
+        return new ModelInDomainLayer(modelInPresentationLayer.getTime(), modelInPresentationLayer.getDate(), modelInPresentationLayer.getGoal());
+    }
 }

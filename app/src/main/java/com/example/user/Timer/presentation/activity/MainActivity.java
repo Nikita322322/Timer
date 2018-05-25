@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
         }
     }
 
-
     public void showFragment(BaseFragment activefragment, Bundle bundle) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
@@ -84,10 +83,5 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
     @Override
     public void showDescriptionFragment(Bundle bundle) {
         showFragment(new DescriptionFragment(), bundle);
-    }
-
-    @Override
-    public void showWebFragment() {
-        showFragment(new ClockViewFragment(), null);
     }
 }

@@ -1,6 +1,5 @@
 package com.example.user.Timer.presentation.fragmentDescription;
 
-
 import com.example.user.Timer.domainLayer.interactors.DeleteUserInteractor;
 import com.example.user.Timer.domainLayer.interactors.GetAllUsersInteractor;
 import com.example.user.Timer.presentation.mvp.BasePresenterImpl;
@@ -20,6 +19,7 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
 
     @Override
     protected void onViewAttached() {
+
         addDisposable(getAllUsersInteractor.execute(null).subscribe(users -> {
             if (isViewAttached() && users != null) {
                 view.showAllUsers(users);

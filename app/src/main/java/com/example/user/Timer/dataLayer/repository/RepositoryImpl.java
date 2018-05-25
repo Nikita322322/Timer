@@ -29,7 +29,6 @@ public class RepositoryImpl implements Repository {
         this.transformerInDomainLayer = transformerInDomainLayer;
     }
 
-
     @Override
     public Observable<Boolean> saveUser(ModelInDomainLayer modelInDomainLayer) {
         User user = new User();

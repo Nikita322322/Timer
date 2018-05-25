@@ -2,8 +2,6 @@ package com.example.user.Timer.dataLayer.store.local;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import com.example.user.Timer.dataLayer.store.models.User;
 
@@ -25,7 +23,7 @@ public class LocalStore {
     private final String DATABASE_NAME = "user-database";
 
     @Inject
-    public LocalStore(Context context) {
+    LocalStore(Context context) {
         mDb = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build(); // Get an Instance of AppDatabase class
     }
 

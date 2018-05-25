@@ -5,6 +5,7 @@ import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,4 +35,13 @@ public class TransformerInPresentationLayer {
             return noteModelList;
         }
     };
+
+    public ModelInPresentationLayer getModelInPresentationLayer(int value, long maxValue) {
+        ModelInPresentationLayer user = new ModelInPresentationLayer();
+        user.setTime(value);
+        user.setGoal(maxValue);
+        Calendar cal = Calendar.getInstance();
+        user.setDate(String.valueOf(cal.getTimeInMillis()));
+        return user;
+    }
 }

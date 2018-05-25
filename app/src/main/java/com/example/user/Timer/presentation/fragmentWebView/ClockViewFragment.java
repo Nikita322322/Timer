@@ -26,10 +26,9 @@ import io.reactivex.disposables.Disposable;
 
 
 public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implements ClockViewView {
-
-    FragmentClockviewBinding binding;
+    private FragmentClockviewBinding binding;
     @Inject
-    public ClockViewPresenter presenter;
+    private ClockViewPresenter presenter;
     private Disposable subscription = null;
 
     @Override
@@ -38,15 +37,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         App.getUserComponent().injects(this);
     }
 
-
     public ClockViewFragment() {
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
     }
 
     @Override
@@ -145,10 +136,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     protected BaseView getBaseView() {
         return this;
-    }
-
-    @Override
-    public void show(boolean b) {
     }
 
     @Override
