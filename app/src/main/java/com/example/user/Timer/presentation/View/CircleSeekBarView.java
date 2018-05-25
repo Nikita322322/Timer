@@ -21,7 +21,7 @@ import android.view.View;
 public class CircleSeekBarView extends View {
     private int angle = 0;
     private final int barWidth = 5;
-    private int maxProgress = 60;
+    private int maxProgress;
     private int progress;
     private float innerRadius;
     private float outerRadius;
@@ -53,7 +53,7 @@ public class CircleSeekBarView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         int size = (w > h) ? h : w; //  smaller
-        cx = w / 2 ; // Center X for circle
+        cx = w / 2; // Center X for circle
         cy = h / 2; // Center Y for circle
         outerRadius = (size) / 2; // Radius of the outer circle
         innerRadius = outerRadius - barWidth; // Radius of the inner circle
@@ -74,7 +74,7 @@ public class CircleSeekBarView extends View {
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInPixels(14));
         textPaint.getTextBounds(String.valueOf(text), 0, String.valueOf(text).length(), bounds);
-        canvas.drawText(String.valueOf(text), cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
+        canvas.drawText(String.valueOf(Integer.parseInt(text) - Math.round(progress)), cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
 
         super.onDraw(canvas);
     }
@@ -82,12 +82,11 @@ public class CircleSeekBarView extends View {
     public void setAngle(int angle) {
         this.angle = angle;
         float donePercent = (((float) this.angle) / 360) * 100;
-        float progress = (donePercent / 100) * maxProgress;
+        float progress = (donePercent / 100) * 60;
 
         if (progress - Math.round(progress) >= 0.45) {
             progress += 0.1;
         }
-        text = String.valueOf(Math.round(progress));
         setProgress(Math.round(progress));
     }
 
@@ -95,13 +94,30 @@ public class CircleSeekBarView extends View {
         return progress;
     }
 
+    public int getMaxProgress() {
+        return maxProgress;
+    }
+
+    public void setMaxProgress(int maxProgress) {
+        this.maxProgress = maxProgress;
+        text = String.valueOf(maxProgress);
+    }
+
     public void setProgress(int progress) {
         if (this.progress != progress) {
             this.progress = progress;
-            int newPercent = (this.progress * 100) / this.maxProgress;
+            int newPercent = (this.progress * 100) / 60;
             int newAngle = (newPercent * 360) / 100;
             this.setAngle(newAngle);
         }
+    }
+
+    public void minuteHasPassed() {
+        text = String.valueOf(Integer.parseInt(text) - 60);
+    }
+
+    public int getTime() {
+        return Integer.parseInt(text);
     }
 
     @Override
@@ -129,8 +145,7 @@ public class CircleSeekBarView extends View {
         float distance = (float) Math.sqrt(Math.pow((x - cx), 2) + Math.pow((y - cy), 2));
         float adjustmentFactor = 100;
         if (distance < outerRadius + adjustmentFactor && distance > innerRadius - adjustmentFactor && !up) {
-            //     markPointX = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
-            //   markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
+
             float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
             // and to make it count 0-360
             if (degrees < 0) {
