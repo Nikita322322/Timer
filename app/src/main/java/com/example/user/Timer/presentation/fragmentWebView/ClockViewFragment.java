@@ -61,7 +61,9 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             mainRouter.showDescriptionFragment(null);
         });
 
-        binding.saveValueButton.setOnClickListener(view -> presenter.save(binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime() + binding.circleSeekBar.getProgress(), binding.circleSeekBar.getMaxProgress()));
+        binding.saveValueButton.setOnClickListener(view ->
+                presenter.save(binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime()
+                        + binding.circleSeekBar.getProgress(), binding.circleSeekBar.getMaxProgress()));
         binding.startButton.setOnClickListener(view -> startTimer());
         binding.stopButton.setOnClickListener(view -> {
             if (subscription != null && !subscription.isDisposed()) {
@@ -107,7 +109,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                                 binding.circleSeekBar.invalidate();
                             }
                         } else {
-                            if (binding.circleSeekBar.getTime() == binding.circleSeekBar.getProgress()) {
+                            if (binding.circleSeekBar.getTime() <= binding.circleSeekBar.getProgress()) {
                                 binding.textView.setText("");
                                 Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
                                 toast.show();

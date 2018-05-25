@@ -78,7 +78,7 @@ public class CustomGraphicsView extends View {
 
             paint.setColor(palette.blackColor);
 
-            setTextSizeForWidth(paint, drawableRect.right - drawableRect.left, drawableRect.bottom, viewModell.name);
+            setTextSizeForWidth(paint, drawableRect.right - drawableRect.left, viewModell.height, viewModell.name);
             canvas.drawText(viewModell.name, drawableRect.left, mHeight, paint);
         }
         columns.clear();
@@ -133,7 +133,8 @@ public class CustomGraphicsView extends View {
 
                     for (int i = 0; i < setScaleLength.size(); i++) {
                         ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote,
-                                mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()), palette.blueColor);
+                                mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()),
+                                palette.blueColor, Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)));
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -168,7 +169,7 @@ public class CustomGraphicsView extends View {
                 Color.parseColor("#90a4ae"), Color.parseColor("#78909c"), Color.parseColor("#607d8b"),
                 Color.parseColor("#546e7a"), Color.parseColor("#455a64"), Color.parseColor("#37474f")};
         int blackColor = Color.BLACK;
-        int blueColor=Color.parseColor("#ff33b5e5");
+        int blueColor = Color.parseColor("#ff33b5e5");
         int grayColor = Color.parseColor("#ff33b5e5");
     }
 
@@ -179,13 +180,15 @@ public class CustomGraphicsView extends View {
         int endY;
         String name;
         int color;
+        int height;
 
-        public ViewModel(int startX, int startY, int endY, String name, int color) {
+        public ViewModel(int startX, int startY, int endY, String name, int color, int height) {
             this.startX = startX;
             this.startY = startY;
             this.endY = endY;
             this.name = name;
             this.color = color;
+            this.height = height;
         }
 
     }
