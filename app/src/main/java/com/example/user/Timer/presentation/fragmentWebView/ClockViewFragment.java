@@ -1,7 +1,12 @@
 package com.example.user.Timer.presentation.fragmentWebView;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,8 @@ import android.widget.Toast;
 import com.example.user.Timer.R;
 import com.example.user.Timer.databinding.FragmentClockviewBinding;
 import com.example.user.Timer.presentation.App;
+import com.example.user.Timer.presentation.activity.MainActivity;
+import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragment;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 
@@ -28,7 +35,7 @@ import io.reactivex.disposables.Disposable;
 public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implements ClockViewView {
     private FragmentClockviewBinding binding;
     @Inject
-    private ClockViewPresenter presenter;
+    public ClockViewPresenter presenter;
     private Disposable subscription = null;
 
     @Override
@@ -74,6 +81,9 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public void onStart() {
         super.onStart();
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
+        }
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.navigation_button_animation);
         binding.changeButton.startAnimation(animation);
         animation.cancel();
@@ -144,5 +154,27 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             subscription.dispose();
         }
         super.onStop();
+    }
+
+    @Override
+    public void notifyThatUserSaved(String message) {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.putExtra(DescriptionFragment.class.getName(), getResources().getString(R.string.YES));
+        int requestID = (int) System.currentTimeMillis();
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity());
+        b.setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle(getResources().getString(R.string.Congratulations))
+                .setContentText(message)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (nm != null) {
+            nm.notify(1, b.build());
+        }
     }
 }

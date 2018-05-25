@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.user.Timer.R;
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragment;
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,17 +33,11 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
         });
 
         Intent intent = getIntent();
-        if (savedInstanceState == null) {
+        String isShowDescriptionFragment = intent.getStringExtra(DescriptionFragment.class.getName());
+        if (isShowDescriptionFragment == null) {
             showFragment(new ClockViewFragment(), null);
-        }
-
-        if (intent != null) {
-            String extra = intent.getStringExtra("profile");
-            if (extra != null) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        extra, Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        } else {
+            showFragment(new DescriptionFragment(), new Bundle());
         }
     }
 
@@ -59,11 +51,18 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
                         .add(R.id.fragmentMainLay, activefragment)
                         .commit();
             } else {
-                supportFragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
-                        .replace(R.id.fragmentMainLay, activefragment)
-                        .commit();
+                if (bundle != null) {
+                    supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
+                            .replace(R.id.fragmentMainLay, activefragment)
+                            .commit();
+                } else {
+                    supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
+                            .replace(R.id.fragmentMainLay, activefragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
             activefragment.setArguments(bundle);
         }

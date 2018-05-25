@@ -60,7 +60,9 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         UserAdapter userAdapter = new UserAdapter(getContext());
         userAdapter.setUserList(userList);
         binding.listView.setAdapter(userAdapter);
-        binding.listView.setOnItemClickListener((adapterView, view, i, l) -> showDialog(userAdapter, i));
+        binding.listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            showDialog(userAdapter, i);
+        });
         binding.customGraphicsView.updateView(userList);
     }
 
@@ -69,7 +71,9 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         alertDialog.setTitle(getResources().getString(R.string.Delete_this_Item));
         alertDialog.setIcon(R.drawable.f5da366372b5ca66c0de5fd61b6d9bde);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getResources().getString(R.string.NO),
-                (dialogInterface, i1) -> dialogInterface.dismiss());
+                (dialogInterface, i1) -> {
+                    dialogInterface.dismiss();
+                });
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.YES),
                 (dialog, which) -> {
                     presenter.deleteUser(((ModelInPresentationLayer) userAdapter.getItem(i)).getId());

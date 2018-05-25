@@ -134,7 +134,7 @@ public class CustomGraphicsView extends View {
                     for (int i = 0; i < setScaleLength.size(); i++) {
                         ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote,
                                 mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()),
-                                palette.blueColor, Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)));
+                                palette.blueColor, Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)), graphicsModelList.get(i).getId());
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -149,7 +149,7 @@ public class CustomGraphicsView extends View {
 //        if (columns != null && columns.size() != 0) {
 //            for (int i = 0; i < columns.size(); i++) {
 //                if (columns.get(i).id == id) {
-//                    columns.remove(i);
+//                    columns.get(i).color = Color.LTGRAY;
 //                }
 //            }
 //        }
@@ -181,14 +181,16 @@ public class CustomGraphicsView extends View {
         String name;
         int color;
         int height;
+        long id;
 
-        public ViewModel(int startX, int startY, int endY, String name, int color, int height) {
+        public ViewModel(int startX, int startY, int endY, String name, int color, int height, long id) {
             this.startX = startX;
             this.startY = startY;
             this.endY = endY;
             this.name = name;
             this.color = color;
             this.height = height;
+            this.id = id;
         }
 
     }

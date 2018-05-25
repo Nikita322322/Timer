@@ -21,7 +21,7 @@ import android.view.View;
 public class CircleSeekBarView extends View {
     private int angle = 0;
     private final int barWidth = 5;
-    private int maxProgress;
+    private int maxProgress=60;
     private int progress;
     private float innerRadius;
     private float outerRadius;
