@@ -60,8 +60,8 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         });
 
         binding.saveValueButton.setOnClickListener(view ->
-                presenter.saveResult(binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime()
-                        + binding.circleSeekBar.getProgress(), binding.circleSeekBar.getMaxProgress()));
+                presenter.saveResult((int) (binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime()
+                                        + binding.circleSeekBar.getProgress()), binding.circleSeekBar.getMaxProgress()));
         binding.startButton.setOnClickListener(view -> startTimer());
         binding.stopButton.setOnClickListener(view -> {
             if (subscription != null && !subscription.isDisposed()) {
@@ -97,18 +97,12 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             if (subscription != null && !subscription.isDisposed()) {
                 subscription.dispose();
             }
-            subscription = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
+            subscription = Observable.interval(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(aLong -> {
                         if (binding.circleSeekBar.getTime() > 60) {
-                            if (binding.circleSeekBar.getProgress() + 1 == 60) {
-                                binding.circleSeekBar.minuteHasPassed();
-                                binding.circleSeekBar.setProgress(60);
-                                binding.circleSeekBar.invalidate();
-                                binding.circleSeekBar.setProgress(0);
-                            } else {
-                                binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
-                                binding.circleSeekBar.invalidate();
-                            }
+                            binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.5));
+                            binding.circleSeekBar.invalidate();
+
                         } else {
                             if (binding.circleSeekBar.getTime() <= binding.circleSeekBar.getProgress()) {
                                 binding.textView.setText("");
@@ -116,7 +110,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                                 toast.show();
                                 subscription.dispose();
                             } else {
-                                binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + 1);
+                                binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.5));
                                 binding.circleSeekBar.invalidate();
                             }
                         }
