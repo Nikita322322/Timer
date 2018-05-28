@@ -60,7 +60,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         });
 
         binding.saveValueButton.setOnClickListener(view ->
-                presenter.save(binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime()
+                presenter.saveResult(binding.circleSeekBar.getMaxProgress() - binding.circleSeekBar.getTime()
                         + binding.circleSeekBar.getProgress(), binding.circleSeekBar.getMaxProgress()));
         binding.startButton.setOnClickListener(view -> startTimer());
         binding.stopButton.setOnClickListener(view -> {
@@ -159,7 +159,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public void notifyThatUserSaved(String message) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra(DescriptionFragment.class.getName(), getResources().getString(R.string.YES));
+        intent.putExtra(DescriptionFragment.class.getName(), DescriptionFragment.class.getName());
         int requestID = (int) System.currentTimeMillis();
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity());

@@ -15,11 +15,11 @@ public class ModelInDomainLayer {
         this.goal = goal;
     }
 
-    public ModelInDomainLayer(long id, long time, String date,long goal) {
+    public ModelInDomainLayer(long id, long time, String date, long goal) {
         this.id = id;
         this.time = time;
         this.date = date;
-        this.goal=goal;
+        this.goal = goal;
     }
 
     public long getGoal() {

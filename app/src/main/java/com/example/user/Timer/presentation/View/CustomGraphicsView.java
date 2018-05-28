@@ -25,8 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CustomGraphicsView extends View {
-
     private final int indent = 5;//dp
+    private final int rounding = 5;
     private int mWidth;
     private int mHeight;
     private Paint paint;
@@ -35,7 +35,6 @@ public class CustomGraphicsView extends View {
     private int amountNote;
     private List<ViewModel> columns = new ArrayList<>();
     private List<Integer> setScaleLength = new ArrayList<>();
-    private final int rounding = 5;
 
     public CustomGraphicsView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -62,12 +61,11 @@ public class CustomGraphicsView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        paint.setColor(Color.RED);
+        paint.setColor(palette.redColor);
         if (columns.size() != 0) {
             canvas.drawLine(indent * metrics.density, 0, mWidth - indent * metrics.density, 0, paint);
         }
         for (ViewModel viewModell : columns) {
-
             paint.setColor(viewModell.color);
 
             drawableRect.left = viewModell.startX + indent * metrics.density;
@@ -134,7 +132,8 @@ public class CustomGraphicsView extends View {
                     for (int i = 0; i < setScaleLength.size(); i++) {
                         ViewModel viewModel = new ViewModel(getPaddingLeft() + i * mWidth / amountNote,
                                 mHeight - setScaleLength.get(i), mHeight, getDate(graphicsModelList.get(i).getDate()),
-                                palette.blueColor, Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)), graphicsModelList.get(i).getId());
+                                palette.blueColor, Math.round((graphicsModelList.get(i).getTime() * mHeight / finalMaxValue)),
+                                graphicsModelList.get(i).getId());
                         columns.add(viewModel);
                         invalidate();
                     }
@@ -145,21 +144,10 @@ public class CustomGraphicsView extends View {
         }
     }
 
-//    public void invalidate(long id) {
-//        if (columns != null && columns.size() != 0) {
-//            for (int i = 0; i < columns.size(); i++) {
-//                if (columns.get(i).id == id) {
-//                    columns.get(i).color = Color.LTGRAY;
-//                }
-//            }
-//        }
-//        invalidate();
-//    }
 
     private String getDate(String milliseconds) {
         Calendar cl = Calendar.getInstance();
         cl.setTimeInMillis(Long.parseLong(milliseconds));  //here your time in miliseconds
-        //String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
         String time = "" + cl.get(Calendar.HOUR_OF_DAY) + ":" + cl.get(Calendar.MINUTE) + ":" + cl.get(Calendar.SECOND);
         return time;
     }
@@ -171,6 +159,7 @@ public class CustomGraphicsView extends View {
         int blackColor = Color.BLACK;
         int blueColor = Color.parseColor("#ff33b5e5");
         int grayColor = Color.parseColor("#ff33b5e5");
+        int redColor = Color.RED;
     }
 
     class ViewModel {
@@ -183,7 +172,7 @@ public class CustomGraphicsView extends View {
         int height;
         long id;
 
-        public ViewModel(int startX, int startY, int endY, String name, int color, int height, long id) {
+        ViewModel(int startX, int startY, int endY, String name, int color, int height, long id) {
             this.startX = startX;
             this.startY = startY;
             this.endY = endY;

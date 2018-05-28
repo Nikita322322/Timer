@@ -3,7 +3,7 @@
     <translate xmlns:android="http://schemas.android.com/apk/res/android"
         android:duration="500"
         android:fromYDelta="0%"
-        android:repeatCount="1"
         android:interpolator="@android:anim/accelerate_interpolator"
+        android:repeatCount="1"
         android:toYDelta="30%" />
 </set>

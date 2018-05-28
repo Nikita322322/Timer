@@ -19,21 +19,23 @@ import android.view.View;
  */
 
 public class CircleSeekBarView extends View {
+    private final String SECOND = "c";
+    private final int barWidth = 5;//dp
+    private final int TEXT_SIZE = 17;//sp
+    private final int RADIUS_SMALLER_CIRCLE = 20;
+    private PaintHolder paintHolder;
+    private String text = "0";
     private int angle = 0;
-    private final int barWidth = 5;
-    private int maxProgress=60;
+    private int maxProgress = 60;
     private int progress;
     private float innerRadius;
     private float outerRadius;
     private float cx;
     private float cy;
-    private PaintHolder paintHolder;
-    private String text = "0";
 
     public CircleSeekBarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-
     }
 
     public CircleSeekBarView(Context context, AttributeSet attrs) {
@@ -54,11 +56,11 @@ public class CircleSeekBarView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        int size = (w > h) ? h : w; //  smaller
-        cx = w / 2; // Center X for circle
-        cy = h / 2; // Center Y for circle
-        outerRadius = (size) / 2; // Radius of the outer circle
-        innerRadius = outerRadius - barWidth; // Radius of the inner circle
+        int size = (w > h) ? h : w;
+        cx = w / 2;
+        cy = h / 2;
+        outerRadius = (size - 2 * RADIUS_SMALLER_CIRCLE) / 2;
+        innerRadius = outerRadius - barWidth;
     }
 
     @Override
@@ -68,15 +70,15 @@ public class CircleSeekBarView extends View {
         @SuppressLint("DrawAllocation")
         RectF rect = new RectF(cx - outerRadius, cy - outerRadius, cx + outerRadius, cy + outerRadius);
         canvas.drawArc(rect, startAngle, angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
-        //canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
-        //float endX = (float) (Math.cos(Math.toRadians(270 + angle)) * outerRadius + cx);
-        //float endY = (float) (Math.sin(Math.toRadians(270 + angle)) * outerRadius + cy);
-        //canvas.drawCircle(endX, endY, 10, paintHolder.getInnerCirclePaint(Color.BLACK));
+        canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
+        float endX = (float) (Math.cos(Math.toRadians(270 + angle)) * outerRadius + cx);
+        float endY = (float) (Math.sin(Math.toRadians(270 + angle)) * outerRadius + cy);
+        canvas.drawCircle(endX, endY, RADIUS_SMALLER_CIRCLE, paintHolder.getSmallerCirclePaint());
         @SuppressLint("DrawAllocation")
         Rect bounds = new Rect();
-        Paint textPaint = paintHolder.getTextPaint(getTextSizeInPixels(14));
-        textPaint.getTextBounds(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + "c", 0, (String.valueOf(Integer.parseInt(text) - Math.round(progress)) + "c").length(), bounds);
-        canvas.drawText(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + "c", cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
+        Paint textPaint = paintHolder.getTextPaint(getTextSizeInSp(TEXT_SIZE));
+        textPaint.getTextBounds(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND, 0, (String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND).length(), bounds);
+        canvas.drawText(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND, cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
 
         super.onDraw(canvas);
     }
@@ -150,9 +152,6 @@ public class CircleSeekBarView extends View {
 
             float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
             // and to make it count 0-360
-            if (degrees < 0) {
-                degrees += 2 * Math.PI;
-            }
 
             setAngle(Math.round(degrees));
             invalidate();
@@ -166,11 +165,18 @@ public class CircleSeekBarView extends View {
         private Paint textPaint;
         private Paint circleRing;
         private Paint innerCirclePaint;
+        private Paint smallerCirclePaint;
 
         private PaintHolder() {
             initTextPaint();
             initCirclePaint();
             initInnerCircle();
+            initSmallerCircle();
+        }
+
+        private void initSmallerCircle() {
+            smallerCirclePaint = new Paint();
+            smallerCirclePaint.setColor(Color.parseColor("#03a9f4"));
         }
 
         private void initCirclePaint() {
@@ -196,12 +202,16 @@ public class CircleSeekBarView extends View {
             textPaint.setStyle(Paint.Style.FILL);
         }
 
+        Paint getSmallerCirclePaint() {
+            return smallerCirclePaint;
+        }
+
         Paint getCircleRing() {
             return circleRing;
         }
 
         Paint getTextPaint(int dp) {
-            textPaint.setTextSize(getTextSizeInPixels(dp));
+            textPaint.setTextSize(getTextSizeInSp(dp));
             return textPaint;
         }
 
@@ -216,8 +226,8 @@ public class CircleSeekBarView extends View {
 
     }
 
-    private int getTextSizeInPixels(int sp) {
+    private int getTextSizeInSp(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                sp, getResources().getDisplayMetrics());
+                dp, getResources().getDisplayMetrics());
     }
 }

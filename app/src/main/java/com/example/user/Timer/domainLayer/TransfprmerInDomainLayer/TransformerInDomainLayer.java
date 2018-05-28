@@ -41,4 +41,12 @@ public class TransformerInDomainLayer {
     public ModelInDomainLayer transformPresentationModelToDomain(ModelInPresentationLayer modelInPresentationLayer) {
         return new ModelInDomainLayer(modelInPresentationLayer.getTime(), modelInPresentationLayer.getDate(), modelInPresentationLayer.getGoal());
     }
+
+    public User transformModelInDomainLayerToUserModel(ModelInDomainLayer modelInDomainLayer) {
+        User user = new User();
+        user.setDate(modelInDomainLayer.getDate());
+        user.setTime(modelInDomainLayer.getTime());
+        user.setGoal(modelInDomainLayer.getGoal());
+        return user;
+    }
 }

@@ -19,7 +19,6 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
 
     @Override
     protected void onViewAttached() {
-
         addDisposable(getAllUsersInteractor.execute(null).subscribe(users -> {
             if (isViewAttached() && users != null) {
                 view.showAllUsers(users);

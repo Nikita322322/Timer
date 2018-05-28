@@ -30,7 +30,7 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
     }
 
     @Override
-    public void save(int value, long maxValue) {
+    public void saveResult(int value, long maxValue) {
         addDisposable(saveValueInteractor.execute(transformerInPresentationLayer.getModelInPresentationLayer(value, maxValue))
                 .subscribe(aBoolean -> {
                     if (aBoolean && isViewAttached()) {

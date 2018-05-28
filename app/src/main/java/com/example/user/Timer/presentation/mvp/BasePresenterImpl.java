@@ -16,8 +16,6 @@ public abstract class BasePresenterImpl<T extends BaseView> implements BasePrese
         }
     }
 
-
-
     @Override
     public void onStart() {
 

@@ -27,18 +27,18 @@
                 android:id="@+id/limitEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="60"
                 android:layout_weight="1"
-                android:inputType="number" />
+                android:inputType="number"
+                android:text="@string/_60" />
         </LinearLayout>
 
         <com.example.user.Timer.presentation.View.CircleSeekBarView
             android:id="@+id/circleSeekBar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:paddingTop="78dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:paddingTop="78dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

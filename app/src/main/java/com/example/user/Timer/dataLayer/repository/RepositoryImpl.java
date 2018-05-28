@@ -1,12 +1,12 @@
 package com.example.user.Timer.dataLayer.repository;
 
 
-import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.dataLayer.store.local.LocalStore;
 
 import com.example.user.Timer.domainLayer.TransfprmerInDomainLayer.TransformerInDomainLayer;
 import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 import com.example.user.Timer.injection.App.user.UserScope;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,11 +31,7 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public Observable<Boolean> saveUser(ModelInDomainLayer modelInDomainLayer) {
-        User user = new User();
-        user.setDate(modelInDomainLayer.getDate());
-        user.setTime(modelInDomainLayer.getTime());
-        user.setGoal(modelInDomainLayer.getGoal());
-        return localStore.saveUser(user);
+        return localStore.saveUser(transformerInDomainLayer.transformModelInDomainLayerToUserModel(modelInDomainLayer));
     }
 
     @Override

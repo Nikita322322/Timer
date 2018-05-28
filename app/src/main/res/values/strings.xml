@@ -18,4 +18,7 @@
     <string name="limit">Введите лимит</string>
     <string name="reset">reset</string>
     <string name="Congratulations">Congratulations</string>
+    <string name="todo">TODO</string>
+    <string name="description">Description</string>
+    <string name="_60">60</string>
 </resources>

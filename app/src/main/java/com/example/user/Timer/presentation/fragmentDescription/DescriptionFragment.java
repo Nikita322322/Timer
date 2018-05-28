@@ -22,10 +22,9 @@ import javax.inject.Inject;
 
 
 public class DescriptionFragment extends BaseFragment<DescriptionPresenter> implements DescriptionView {
-
     @Inject
     DescriptionPresenter presenter;
-    FragmentDescriptionBinding binding;
+    private FragmentDescriptionBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

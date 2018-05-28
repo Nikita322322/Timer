@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.example.user.Timer.R;
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragment;
@@ -25,23 +24,18 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        myToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         Intent intent = getIntent();
         String isShowDescriptionFragment = intent.getStringExtra(DescriptionFragment.class.getName());
-        if (isShowDescriptionFragment == null) {
-            showFragment(new ClockViewFragment(), null);
+        if (isShowDescriptionFragment != null && isShowDescriptionFragment.equals(DescriptionFragment.class.getName())) {
+            showFragment(new DescriptionFragment(), null, true);
         } else {
-            showFragment(new DescriptionFragment(), new Bundle());
+            showFragment(new ClockViewFragment(), null, false);
         }
     }
 
-    public void showFragment(BaseFragment activefragment, Bundle bundle) {
+    public void showFragment(BaseFragment activefragment, Bundle bundle, boolean isNotify) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
         if (fragmentByTag == null || bundle != null) {
@@ -51,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
                         .add(R.id.fragmentMainLay, activefragment)
                         .commit();
             } else {
-                if (bundle != null) {
+                if (isNotify) {
                     supportFragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
                             .replace(R.id.fragmentMainLay, activefragment)
@@ -81,6 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
 
     @Override
     public void showDescriptionFragment(Bundle bundle) {
-        showFragment(new DescriptionFragment(), bundle);
+        showFragment(new DescriptionFragment(), bundle, false);
     }
 }
