@@ -91,7 +91,13 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     private void startTimer() {
         if (!binding.limitEditText.getText().toString().trim().equals("")) {
             if (subscription == null) {
-                binding.circleSeekBar.setMaxProgress(Integer.parseInt(binding.limitEditText.getText().toString()));
+                try {
+                    binding.circleSeekBar.setMaxProgress(Integer.parseInt(binding.limitEditText.getText().toString()));
+                }catch (Exception e){
+                    Toast toast=Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG);
+                    toast.show();
+                    binding.circleSeekBar.setMaxProgress(Integer.MAX_VALUE);
+                }
             }
             if (subscription != null && !subscription.isDisposed()) {
                 subscription.dispose();

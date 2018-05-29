@@ -35,6 +35,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDescriptionBinding.inflate(inflater, container, false);
+        binding.loadingView.setVisibility(View.VISIBLE);
         return binding.getRoot();
     }
 
@@ -56,6 +57,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
 
     @Override
     public void showAllUsers(List<ModelInPresentationLayer> userList) {
+        binding.loadingView.setVisibility(View.GONE);
         UserAdapter userAdapter = new UserAdapter(getContext());
         userAdapter.setUserList(userList);
         binding.listView.setAdapter(userAdapter);

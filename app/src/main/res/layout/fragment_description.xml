@@ -8,6 +8,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.example.user.Timer.presentation.View.LoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
         <com.example.user.Timer.presentation.View.CustomGraphicsView
             android:id="@+id/customGraphicsView"
             android:layout_width="match_parent"
@@ -23,7 +29,7 @@
             android:layout_marginLeft="61dp"
             android:layout_marginRight="61dp"
             android:layout_marginTop="16dp"
-            android:hint="@string/listview_start"
+            android:text="@string/listview_start"
             android:textAlignment="center" />
 
         <ListView
@@ -33,4 +39,5 @@
 
         </ListView>
     </LinearLayout>
+
 </layout>
