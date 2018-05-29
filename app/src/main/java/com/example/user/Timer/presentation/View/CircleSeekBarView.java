@@ -27,7 +27,7 @@ public class CircleSeekBarView extends View {
     private PaintHolder paintHolder;
     private String text = "0";
     private float angle = 0;
-    private int maxProgress = 360;
+    private float maxProgress = 60;
     private float progress;
     private float innerRadius;
     private float outerRadius;
@@ -51,7 +51,7 @@ public class CircleSeekBarView extends View {
 
     private void init() {
         paintHolder = new PaintHolder();
-        setMaxProgress(360);
+        setMaxProgress(60);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class CircleSeekBarView extends View {
         return progress;
     }
 
-    public int getMaxProgress() {
+    public float getMaxProgress() {
         return maxProgress;
     }
 
@@ -129,6 +129,7 @@ public class CircleSeekBarView extends View {
         boolean up = false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                up = true;
                 moved(x, y, up);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -148,6 +149,7 @@ public class CircleSeekBarView extends View {
         if (distance < outerRadius + adjustmentFactor && distance > innerRadius - adjustmentFactor && !up) {
             float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
             // and to make it count 0-360
+            Log.v("delete",String.valueOf(degrees));
 
             setAngle(Math.round(360-degrees));
             invalidate();
