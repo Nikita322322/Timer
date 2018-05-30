@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.user.Timer.R;
 import com.example.user.Timer.databinding.FragmentClockviewBinding;
 import com.example.user.Timer.presentation.App;
+import com.example.user.Timer.presentation.View.CircleSeekBarView;
 import com.example.user.Timer.presentation.activity.MainActivity;
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragment;
 import com.example.user.Timer.presentation.mvp.BaseFragment;
@@ -55,6 +56,12 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentClockviewBinding.inflate(inflater, container, false);
+        binding.circleSeekBar.setSeekBarChangeListener(new CircleSeekBarView.OnSeekChangeListener() {
+            @Override
+            public void onProgressChange(float progress) {
+                setProgress(Math.round(progress));
+            }
+        });
         binding.changeButton.setOnClickListener(view -> {
             mainRouter.showDescriptionFragment(null);
         });
@@ -63,6 +70,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                 presenter.saveResult(Math.round(binding.circleSeekBar.getProgress()), (int) binding.circleSeekBar.getMaxProgress()));
         binding.startButton.setOnClickListener(view -> startTimer());
         binding.stopButton.setOnClickListener(view -> {
+            binding.circleSeekBar.setTouchView(true);
             if (subscription != null && !subscription.isDisposed()) {
                 subscription.dispose();
             }
@@ -89,39 +97,69 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     }
 
     private void startTimer() {
-        if (!binding.limitEditText.getText().toString().trim().equals("")) {
+        if (!binding.limitTextView.getText().toString().trim().equals("") || Math.round(binding.circleSeekBar.getProgress()) != 0) {
             if (subscription == null) {
                 try {
-                    binding.circleSeekBar.setMaxProgress(Integer.parseInt(binding.limitEditText.getText().toString()));
-                }catch (Exception e){
-                    Toast toast=Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG);
+                    if (binding.limitTextView.getText().toString().trim().equals("")) {
+                        binding.circleSeekBar.setMaxProgress(Math.round(binding.circleSeekBar.getProgress()));
+                    } else {
+                        binding.circleSeekBar.setMaxProgress(Integer.parseInt(binding.limitTextView.getText().toString()) + Math.round(binding.circleSeekBar.getProgress()));
+                    }
+                    binding.limitTextView.setText(String.valueOf(binding.circleSeekBar.getMaxProgress()));
+                } catch (Exception e) {
+                    Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
                     toast.show();
                     binding.circleSeekBar.setMaxProgress(Integer.MAX_VALUE);
                 }
+                binding.circleSeekBar.setProgress(0);
             }
             if (subscription != null && !subscription.isDisposed()) {
                 subscription.dispose();
             }
-            subscription = Observable.interval(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aLong -> {
-                        if ((int)binding.circleSeekBar.getMaxProgress() == (int)binding.circleSeekBar.getProgress()) {
-                            binding.textView.setText("");
-                            Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
-                            toast.show();
-                            subscription.dispose();
-                        } else {
-                            binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.5));
-                            binding.circleSeekBar.invalidate();
-                        }
-                    });
+            binding.circleSeekBar.setTouchView(false);
+            startTime();
         } else {
             Toast toast = Toast.makeText(getContext(), R.string.limit, Toast.LENGTH_LONG);
             toast.show();
         }
     }
 
+    private void startTime() {
+        subscription = Observable.interval(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if ((int) binding.circleSeekBar.getMaxProgress() == (int) binding.circleSeekBar.getProgress()) {
+                        binding.textView.setText("");
+                        Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
+                        toast.show();
+                        binding.circleSeekBar.setTouchView(true);
+                        subscription.dispose();
+                    } else {
+                        binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.5));
+                        binding.circleSeekBar.invalidate();
+                    }
+                });
+    }
+
+    private void setProgress(int progress) {
+        int limit = 0;
+        if (!binding.limitTextView.getText().toString().equals("")) {
+            try {
+                limit = Math.round(Float.parseFloat(binding.limitTextView.getText().toString()));
+                limit += progress;
+            } catch (Exception e) {
+                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+                limit = Integer.MAX_VALUE;
+            }
+            binding.limitTextView.setText(String.valueOf(limit));
+        } else {
+            binding.limitTextView.setText(String.valueOf(progress));
+        }
+    }
+
     private void resetTimer() {
-        binding.limitEditText.setText("");
+        binding.circleSeekBar.setTouchView(true);
+        binding.limitTextView.setText("");
         binding.circleSeekBar.setMaxProgress(60);
         if (binding.circleSeekBar.getProgress() != 0.0) {
             binding.circleSeekBar.setProgress(0);
@@ -145,9 +183,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
     @Override
     public void onStop() {
-        if (subscription != null && !subscription.isDisposed()) {
-            subscription.dispose();
-        }
+        resetTimer();
         super.onStop();
     }
 

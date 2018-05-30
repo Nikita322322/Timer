@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +32,9 @@ public class CircleSeekBarView extends View {
     private float outerRadius;
     private float cx;
     private float cy;
+    private boolean isTouch = true;
+    private OnSeekChangeListener mListener;
+
 
     public CircleSeekBarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -66,15 +68,20 @@ public class CircleSeekBarView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         canvas.drawCircle(cx, cy, outerRadius, paintHolder.getCircleRing());
+
         int startAngle = 270;
         @SuppressLint("DrawAllocation")
         RectF rect = new RectF(cx - outerRadius, cy - outerRadius, cx + outerRadius, cy + outerRadius);
-        canvas.drawArc(rect, startAngle,-1* angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
+        canvas.drawArc(rect, startAngle, -1 * angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
+
         canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
-        float endX = (float) (Math.cos(Math.toRadians(270 + -1*angle)) * outerRadius + cx);
-        float endY = (float) (Math.sin(Math.toRadians(270 + -1*angle)) * outerRadius + cy);
+
+        float endX = (float) (Math.cos(Math.toRadians(270 + -1 * angle)) * outerRadius + cx);
+        float endY = (float) (Math.sin(Math.toRadians(270 + -1 * angle)) * outerRadius + cy);
         canvas.drawCircle(endX, endY, RADIUS_SMALLER_CIRCLE, paintHolder.getSmallerCirclePaint());
+
         @SuppressLint("DrawAllocation")
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInSp(TEXT_SIZE));
@@ -111,8 +118,8 @@ public class CircleSeekBarView extends View {
         }
     }
 
-    public void minuteHasPassed() {
-        text = String.valueOf(Integer.parseInt(text) - 60);
+    public void setTouchView(Boolean isTouch) {
+        this.isTouch = isTouch;
     }
 
     public int getTime() {
@@ -121,24 +128,24 @@ public class CircleSeekBarView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-        float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
-        Log.d("delete", String.valueOf(degrees));
+        if (isTouch) {
+            float x = event.getX();
+            float y = event.getY();
 
-        boolean up = false;
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                up = true;
-                moved(x, y, up);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                moved(x, y, up);
-                break;
-            case MotionEvent.ACTION_UP:
-                up = true;
-                moved(x, y, up);
-                break;
+            boolean up = false;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    up = true;
+                    moved(x, y, up);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    moved(x, y, up);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    up = true;
+                    moved(x, y, up);
+                    break;
+            }
         }
         return true;
     }
@@ -149,14 +156,30 @@ public class CircleSeekBarView extends View {
         if (distance < outerRadius + adjustmentFactor && distance > innerRadius - adjustmentFactor && !up) {
             float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
             // and to make it count 0-360
-            Log.v("delete",String.valueOf(degrees));
 
-            setAngle(Math.round(360-degrees));
+            if (360 - angle - 30 <= 0 && degrees > 340) {
+                mListener.onProgressChange(60);
+            }
+            setAngle(Math.round(360 - degrees));
             invalidate();
         } else {
             invalidate();
         }
     }
+
+    public void setSeekBarChangeListener(OnSeekChangeListener listener) {
+        mListener = listener;
+    }
+
+
+    public OnSeekChangeListener getSeekBarChangeListener() {
+        return mListener;
+    }
+
+    public interface OnSeekChangeListener {
+        void onProgressChange(float progress);
+    }
+
 
     private class PaintHolder {
         private Paint textPaint;
@@ -196,7 +219,8 @@ public class CircleSeekBarView extends View {
             textPaint.setColor(Color.BLACK);
             textPaint.setAntiAlias(true);
             textPaint.setTypeface(Typeface.DEFAULT);
-            textPaint.setStyle(Paint.Style.FILL);
+            textPaint.setStyle(Paint.Style.STROKE);
+            textPaint.setShadowLayer(5.0f, 5.0f, 5.0f, Color.LTGRAY);
         }
 
         Paint getSmallerCirclePaint() {

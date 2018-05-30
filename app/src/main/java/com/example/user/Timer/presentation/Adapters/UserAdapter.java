@@ -58,7 +58,7 @@ public class UserAdapter extends BaseAdapter {
         }
 
         ModelInPresentationLayer item = (ModelInPresentationLayer) getItem(i);
-        binding.time.setText(String.valueOf(item.getTime()) + "(goal is " + String.valueOf(item.getGoal()) + ")");
+        binding.time.setText(String.valueOf(item.getTime()) + "(limit is " + String.valueOf(item.getGoal()) + ")");
         binding.textViewDate.setText(getDate(item.getDate()));
         if (item.getTime() < item.getGoal()) {
             binding.image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_checkbox_state_true));

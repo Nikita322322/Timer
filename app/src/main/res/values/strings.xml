@@ -11,7 +11,7 @@
     <string name="search">что искать?</string>
     <string name="change">go</string>
     <string name="save">Save</string>
-    <string name="set_limit">set limit(goal):</string>
+    <string name="set_limit">limit(goal) is:</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="finish">time is out!!!</string>
@@ -22,4 +22,5 @@
     <string name="description">Description</string>
     <string name="_60">60</string>
     <string name="pause">pause</string>
+    <string name="_0">0</string>
 </resources>

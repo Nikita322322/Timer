@@ -18,18 +18,20 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/set_limit"
-                android:textAlignment="center" />
-
-            <EditText
-                android:id="@+id/limitEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_weight="1"
-                android:inputType="number"
-                android:text="@string/_60" />
+                android:text="@string/set_limit"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/limitTextView"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="18sp" />
         </LinearLayout>
 
         <com.example.user.Timer.presentation.View.CircleSeekBarView
@@ -56,8 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:elevation="10dp"
                 android:clipToPadding="false"
+                android:elevation="10dp"
                 android:text="@string/save"
                 android:textColor="@color/colorBlack" />
 
@@ -105,10 +107,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:layout_weight="1"
-                android:elevation="6dp"
                 android:background="#eceff1"
-                android:outlineProvider="bounds"
                 android:clipToPadding="false"
+                android:elevation="6dp"
+                android:outlineProvider="bounds"
                 android:text="@string/reset"
                 android:textColor="@color/colorBlack" />
 

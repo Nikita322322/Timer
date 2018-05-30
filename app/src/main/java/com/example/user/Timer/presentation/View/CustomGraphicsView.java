@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CustomGraphicsView extends View {
-    private final int indent = 5;//dp
+    private final int indent = 4;//dp
     private final int rounding = 5;
     private int mWidth;
     private int mHeight;
