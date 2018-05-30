@@ -53,7 +53,6 @@ public class CircleSeekBarView extends View {
 
     private void init() {
         paintHolder = new PaintHolder();
-        setMaxProgress(60);
     }
 
     @Override
@@ -86,7 +85,7 @@ public class CircleSeekBarView extends View {
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInSp(TEXT_SIZE));
         textPaint.getTextBounds(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND, 0, (String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND).length(), bounds);
-        canvas.drawText(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND, cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
+        canvas.drawText(String.valueOf(Math.abs(Integer.parseInt(text) - Math.round(progress))) + SECOND, cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
 
         super.onDraw(canvas);
     }

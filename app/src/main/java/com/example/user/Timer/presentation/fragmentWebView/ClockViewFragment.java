@@ -124,7 +124,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     }
 
     private void startTime() {
-        subscription = Observable.interval(500, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
+        subscription = Observable.interval(50, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     if ((int) binding.circleSeekBar.getMaxProgress() == (int) binding.circleSeekBar.getProgress()) {
                         binding.textView.setText("");
@@ -133,7 +133,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                         binding.circleSeekBar.setTouchView(true);
                         subscription.dispose();
                     } else {
-                        binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.5));
+                        binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.05));
                         binding.circleSeekBar.invalidate();
                     }
                 });
