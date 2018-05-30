@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-
 public class DescriptionFragment extends BaseFragment<DescriptionPresenter> implements DescriptionView {
     @Inject
     DescriptionPresenter presenter;
@@ -42,7 +41,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainRouter.showNavigationButton(true);
     }
 
     @Override
@@ -82,6 +80,11 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
                     binding.customGraphicsView.updateView(userAdapter.getUserList());
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public boolean isShowButtonOnMainActivityToolbar() {
+        return true;
     }
 }
 

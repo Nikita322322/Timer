@@ -82,7 +82,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainRouter.showNavigationButton(false);
     }
 
     @Override

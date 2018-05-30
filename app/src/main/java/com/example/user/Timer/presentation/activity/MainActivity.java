@@ -14,7 +14,7 @@ import com.example.user.Timer.presentation.mvp.BaseFragment;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements MainRouter {
+public class MainActivity extends AppCompatActivity implements MainRouter, BaseFragment.OnFragmentActivitedListener {
 
     private final static String CLOCK_VIEW_FRAGMENT = "ClockViewFragment";
 
@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
         }
     }
 
-    public void showFragment(BaseFragment activefragment, Bundle bundle, boolean isNotify) {
+    public void showFragment(BaseFragment activefragment, Bundle bundle, boolean addToBackStack) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
+        activefragment.setOnFragmentActivitedListener(this);
         if (fragmentByTag == null || bundle != null) {
             if (activefragment.getClass().getSimpleName().equals(CLOCK_VIEW_FRAGMENT)) {
                 supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
                         .add(R.id.fragmentMainLay, activefragment)
                         .commit();
             } else {
-                if (isNotify) {
+                if (addToBackStack) {
                     supportFragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
                             .replace(R.id.fragmentMainLay, activefragment)
@@ -76,5 +77,10 @@ public class MainActivity extends AppCompatActivity implements MainRouter {
     @Override
     public void showDescriptionFragment(Bundle bundle) {
         showFragment(new DescriptionFragment(), bundle, false);
+    }
+
+    @Override
+    public void onFragmantActivated(BaseFragment tBaseFragment) {
+        showNavigationButton(tBaseFragment.isShowButtonOnMainActivityToolbar());
     }
 }

@@ -11,6 +11,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     protected T presenter;
     protected MainRouter mainRouter;
+    private OnFragmentActivitedListener onFragmentActivitedListener;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (onFragmentActivitedListener != null) {
+            onFragmentActivitedListener.onFragmantActivated(this);
+        }
         presenter.onStart();
     }
 
@@ -44,8 +49,19 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         }
     }
 
+    public boolean isShowButtonOnMainActivityToolbar() {
+        return false;
+    }
+
     protected abstract T getPresenter();
 
     protected abstract BaseView getBaseView();
 
+    public void setOnFragmentActivitedListener(OnFragmentActivitedListener onFragmentActivitedListener) {
+        this.onFragmentActivitedListener = onFragmentActivitedListener;
+    }
+
+    public interface OnFragmentActivitedListener {
+        void onFragmantActivated(BaseFragment tBaseFragment);
+    }
 }

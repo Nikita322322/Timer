@@ -113,7 +113,7 @@ public class CircleSeekBarView extends View {
     public void setProgress(float progress) {
         if (this.progress != progress) {
             this.progress = progress;
-            float newAngle = (((float) this.progress * 100f) / maxProgress * 360) / 100;
+            float newAngle = ((this.progress * 100f) / maxProgress * 360) / 100;
             this.setAngle(newAngle);
         }
     }
