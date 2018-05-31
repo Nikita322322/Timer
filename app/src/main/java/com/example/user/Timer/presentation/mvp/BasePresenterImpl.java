@@ -28,11 +28,11 @@ public abstract class BasePresenterImpl<T extends BaseView> implements BasePrese
 
     @Override
     public void detachView() {
-        view=null;
+        view = null;
         compositeDisposable.clear();
     }
 
-    public void addDisposable(Disposable disposable){
+    public void addDisposable(Disposable disposable) {
         compositeDisposable.add(disposable);
     }
 

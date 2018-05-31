@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 /**
@@ -20,36 +21,33 @@ import io.reactivex.Observable;
 
 public class LocalStore {
     private AppDatabase mDb;
-    private final String DATABASE_NAME = "user-database";
 
     @Inject
     LocalStore(Context context) {
-        mDb = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build(); // Get an Instance of AppDatabase class
+        mDb = Room.databaseBuilder(context, AppDatabase.class, User.TABLE_NAME).build(); // Get an Instance of AppDatabase class
     }
 
-    public Observable<Boolean> saveUser(User user) {
-        return Observable.create(subscriber -> {
+    public Single<Boolean> saveUser(User user) {
+        return Single.create(subscriber -> {
             try {
                 if (mDb != null && mDb.userDao() != null) {
                     long b = mDb.userDao().save(user);
                     if (b >= 0) {
-                        subscriber.onNext(true);
+                        subscriber.onSuccess(true);
                     } else {
-                        subscriber.onNext(false);
+                        subscriber.onSuccess(false);
                     }
                 } else {
-                    subscriber.onNext(false);
+                    subscriber.onSuccess(false);
                 }
             } catch (Exception e) {
                 subscriber.onError(e);
-            } finally {
-                subscriber.onComplete();
             }
         });
     }
 
-    public Observable<List<User>> getAllUsers() {
-        return Observable.create(subscriber -> {
+    public Single<List<User>> getAllUsers() {
+        return Single.create(subscriber -> {
             try {
                 if (mDb != null && mDb.userDao() != null) {
                     List<User> userList = mDb.userDao().getAll();
@@ -59,35 +57,31 @@ public class LocalStore {
                             return 1;
                         else return -1;
                     });
-                    subscriber.onNext(userList);
+                    subscriber.onSuccess(userList);
                 } else {
-                    subscriber.onNext(new ArrayList<>());
+                    subscriber.onSuccess(new ArrayList<>());
                 }
             } catch (Exception e) {
                 subscriber.onError(e);
-            } finally {
-                subscriber.onComplete();
             }
         });
     }
 
-    public Observable<Boolean> deleteUser(long id) {
-        return Observable.create(subscriber -> {
+    public Single<Boolean> deleteUser(long id) {
+        return Single.create(subscriber -> {
             try {
                 if (mDb != null && mDb.userDao() != null) {
                     long response = mDb.userDao().deleteByUserId(id);//the value is the number of rows affected by this query.
                     if (response <= 0) {
-                        subscriber.onNext(false);
+                        subscriber.onSuccess(false);
                     } else {
-                        subscriber.onNext(true);
+                        subscriber.onSuccess(true);
                     }
                 } else {
-                    subscriber.onNext(false);
+                    subscriber.onSuccess(false);
                 }
             } catch (Exception e) {
                 subscriber.onError(e);
-            } finally {
-                subscriber.onComplete();
             }
         });
     }

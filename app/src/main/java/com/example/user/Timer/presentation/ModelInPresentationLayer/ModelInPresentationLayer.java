@@ -12,7 +12,7 @@ public class ModelInPresentationLayer {
     public ModelInPresentationLayer() {
     }
 
-    public ModelInPresentationLayer(long id, long time, String date,long goal) {
+    public ModelInPresentationLayer(long id, long time, String date, long goal) {
         this.id = id;
         this.time = time;
         this.date = date;

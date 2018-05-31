@@ -23,4 +23,6 @@
     <string name="_60">60</string>
     <string name="pause">pause</string>
     <string name="_0">0</string>
+    <string name="second">s</string>
+    <string name="limit_is">limit is </string>
 </resources>

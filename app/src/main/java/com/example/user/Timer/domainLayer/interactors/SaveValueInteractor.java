@@ -6,8 +6,7 @@ import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPrese
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-
+import io.reactivex.Single;
 
 public class SaveValueInteractor extends UseCase<ModelInPresentationLayer, Boolean> {
     private Repository repository;
@@ -20,7 +19,7 @@ public class SaveValueInteractor extends UseCase<ModelInPresentationLayer, Boole
     }
 
     @Override
-    protected Observable<Boolean> buildUseCase(ModelInPresentationLayer arg) {
+    protected Single<Boolean> buildUseCase(ModelInPresentationLayer arg) {
         return repository.saveUser(transformerInDomainLayer.transformPresentationModelToDomain(arg));
     }
 }

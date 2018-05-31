@@ -1,4 +1,4 @@
-package com.example.user.Timer.presentation.fragmentWebView;
+package com.example.user.Timer.presentation.fragmentClockView;
 
 import com.example.user.Timer.presentation.mvp.BasePresenter;
 

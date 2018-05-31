@@ -11,7 +11,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     protected T presenter;
     protected MainRouter mainRouter;
-    private OnFragmentActivitedListener onFragmentActivitedListener;
+    private OnFragmentActivatedListener onFragmentActivatedListener;
 
 
     @Override
@@ -22,14 +22,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
             presenter.attachView(getBaseView());
         }
         mainRouter = (MainRouter) getActivity();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (onFragmentActivitedListener != null) {
-            onFragmentActivitedListener.onFragmantActivated(this);
+        if (onFragmentActivatedListener != null) {
+            onFragmentActivatedListener.onFragmentActivated(this);
         }
         presenter.onStart();
     }
@@ -57,11 +56,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     protected abstract BaseView getBaseView();
 
-    public void setOnFragmentActivitedListener(OnFragmentActivitedListener onFragmentActivitedListener) {
-        this.onFragmentActivitedListener = onFragmentActivitedListener;
+    public void setOnFragmentActivatedListener(OnFragmentActivatedListener onFragmentActivatedListener) {
+        this.onFragmentActivatedListener = onFragmentActivatedListener;
     }
 
-    public interface OnFragmentActivitedListener {
-        void onFragmantActivated(BaseFragment tBaseFragment);
+    public interface OnFragmentActivatedListener {
+        void onFragmentActivated(BaseFragment tBaseFragment);
     }
 }

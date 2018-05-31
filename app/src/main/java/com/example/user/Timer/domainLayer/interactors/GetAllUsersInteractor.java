@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 public class GetAllUsersInteractor extends UseCase<Void, List<ModelInPresentationLayer>> {
@@ -22,7 +22,7 @@ public class GetAllUsersInteractor extends UseCase<Void, List<ModelInPresentatio
     }
 
     @Override
-    protected Observable<List<ModelInPresentationLayer>> buildUseCase(Void arg) {
+    protected Single<List<ModelInPresentationLayer>> buildUseCase(Void arg) {
         return repository.getAllUsers().map(transformerInPresentationLayer.domainModelToPresentationModel);
     }
 }

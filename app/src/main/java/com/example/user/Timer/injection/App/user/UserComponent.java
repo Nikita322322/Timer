@@ -1,7 +1,7 @@
 package com.example.user.Timer.injection.App.user;
 
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragment;
-import com.example.user.Timer.presentation.fragmentWebView.ClockViewFragment;
+import com.example.user.Timer.presentation.fragmentClockView.ClockViewFragment;
 
 import dagger.Subcomponent;
 

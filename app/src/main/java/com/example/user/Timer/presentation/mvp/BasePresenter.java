@@ -11,5 +11,4 @@ public interface BasePresenter<T extends BaseView> {
 
     void detachView();
 
-
 }

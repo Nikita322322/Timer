@@ -20,9 +20,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                android:textSize="18sp"
                 android:text="@string/set_limit"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/limitTextView"
@@ -30,8 +30,8 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="18sp"
-                android:text="" />
+                android:text=""
+                android:textSize="18sp" />
         </LinearLayout>
 
         <com.example.user.Timer.presentation.View.CircleSeekBarView

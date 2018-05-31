@@ -26,7 +26,7 @@ import java.util.List;
 
 public class CustomGraphicsView extends View {
     private final int indent = 4;//dp
-    private final int rounding = 5;
+    private final int rounding = 5;//dp
     private int mWidth;
     private int mHeight;
     private Paint paint;

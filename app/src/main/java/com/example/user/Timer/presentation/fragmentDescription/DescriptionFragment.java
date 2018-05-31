@@ -21,6 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class DescriptionFragment extends BaseFragment<DescriptionPresenter> implements DescriptionView {
+
     @Inject
     DescriptionPresenter presenter;
     private FragmentDescriptionBinding binding;
@@ -41,16 +42,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    protected DescriptionPresenter getPresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected BaseView getBaseView() {
-        return this;
     }
 
     @Override
@@ -85,6 +76,16 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Override
     public boolean isShowButtonOnMainActivityToolbar() {
         return true;
+    }
+
+    @Override
+    protected DescriptionPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected BaseView getBaseView() {
+        return this;
     }
 }
 

@@ -32,7 +32,6 @@
             android:text="@string/listview_start"
             android:textAlignment="center" />
 
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

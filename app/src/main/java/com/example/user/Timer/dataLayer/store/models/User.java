@@ -4,12 +4,16 @@ package com.example.user.Timer.dataLayer.store.models;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import static com.example.user.Timer.dataLayer.store.models.User.TABLE_NAME;
+
 /**
  * Created by User on 17.05.2018.
  */
 
-@Entity(tableName = "user")
+@Entity(tableName = TABLE_NAME)
 public class User {
+    public static final String TABLE_NAME = "user";
+
     public User() {
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by User on 17.05.2018.
@@ -30,17 +30,17 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Observable<Boolean> saveUser(ModelInDomainLayer modelInDomainLayer) {
+    public Single<Boolean> saveUser(ModelInDomainLayer modelInDomainLayer) {
         return localStore.saveUser(transformerInDomainLayer.transformModelInDomainLayerToUserModel(modelInDomainLayer));
     }
 
     @Override
-    public Observable<List<ModelInDomainLayer>> getAllUsers() {
+    public Single<List<ModelInDomainLayer>> getAllUsers() {
         return localStore.getAllUsers().map(transformerInDomainLayer.userToModelInDomainLayer);
     }
 
     @Override
-    public Observable<Boolean> deleteUser(long id) {
+    public Single<Boolean> deleteUser(long id) {
         return localStore.deleteUser(id);
     }
 }

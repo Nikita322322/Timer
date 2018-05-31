@@ -4,8 +4,8 @@ import com.example.user.Timer.dataLayer.repository.Repository;
 import com.example.user.Timer.dataLayer.repository.RepositoryImpl;
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionPresenter;
 import com.example.user.Timer.presentation.fragmentDescription.DescriptionPresenterImpl;
-import com.example.user.Timer.presentation.fragmentWebView.ClockViewPresenter;
-import com.example.user.Timer.presentation.fragmentWebView.ClockViewPresenterImpl;
+import com.example.user.Timer.presentation.fragmentClockView.ClockViewPresenter;
+import com.example.user.Timer.presentation.fragmentClockView.ClockViewPresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -27,5 +27,4 @@ public class UserModule {
     DescriptionPresenter provideFragmentDescriptionPresenter(DescriptionPresenterImpl presenter) {
         return presenter;
     }
-
 }

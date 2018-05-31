@@ -1,4 +1,4 @@
-package com.example.user.Timer.presentation.fragmentWebView;
+package com.example.user.Timer.presentation.fragmentClockView;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -34,6 +34,7 @@ import io.reactivex.disposables.Disposable;
 
 
 public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implements ClockViewView {
+
     private FragmentClockviewBinding binding;
     @Inject
     public ClockViewPresenter presenter;
@@ -192,7 +193,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         intent.putExtra(DescriptionFragment.class.getName(), DescriptionFragment.class.getName());
         int requestID = (int) System.currentTimeMillis();
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity());
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity(), "dffd");
         b.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())

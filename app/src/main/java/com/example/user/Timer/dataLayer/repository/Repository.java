@@ -5,7 +5,7 @@ import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by User on 17.05.2018.
@@ -13,9 +13,9 @@ import io.reactivex.Observable;
 
 public interface Repository {
 
-    Observable<Boolean> saveUser(ModelInDomainLayer user);
+    Single<Boolean> saveUser(ModelInDomainLayer user);
 
-    Observable<List<ModelInDomainLayer>> getAllUsers();
+    Single<List<ModelInDomainLayer>> getAllUsers();
 
-    Observable<Boolean> deleteUser(long id);
+    Single<Boolean> deleteUser(long id);
 }

@@ -13,16 +13,17 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.user.Timer.R;
+
 
 /**
  * Created by User on 15.05.2018.
  */
 
 public class CircleSeekBarView extends View {
-    private final String SECOND = "c";
     private final int barWidth = 5;//dp
     private final int TEXT_SIZE = 17;//sp
-    private final int RADIUS_SMALLER_CIRCLE = 20;
+    private final int RADIUS_SMALLER_CIRCLE = 20;//dp
     private PaintHolder paintHolder;
     private String text = "0";
     private float angle = 0;
@@ -73,7 +74,7 @@ public class CircleSeekBarView extends View {
         int startAngle = 270;
         @SuppressLint("DrawAllocation")
         RectF rect = new RectF(cx - outerRadius, cy - outerRadius, cx + outerRadius, cy + outerRadius);
-        canvas.drawArc(rect, startAngle, -1 * angle, true, paintHolder.getInnerCirclePaint(Color.parseColor("#ff33b5e5")));
+        canvas.drawArc(rect, startAngle, -1 * angle, true, paintHolder.getInnerCirclePaint(getResources().getColor(R.color.blue)));
 
         canvas.drawCircle(cx, cy, innerRadius, paintHolder.getInnerCirclePaint(Color.WHITE));
 
@@ -84,8 +85,10 @@ public class CircleSeekBarView extends View {
         @SuppressLint("DrawAllocation")
         Rect bounds = new Rect();
         Paint textPaint = paintHolder.getTextPaint(getTextSizeInSp(TEXT_SIZE));
-        textPaint.getTextBounds(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND, 0, (String.valueOf(Integer.parseInt(text) - Math.round(progress)) + SECOND).length(), bounds);
-        canvas.drawText(String.valueOf(Math.abs(Integer.parseInt(text) - Math.round(progress))) + SECOND, cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
+        textPaint.getTextBounds(String.valueOf(Integer.parseInt(text) - Math.round(progress)) + getResources().getString(R.string.second), 0,
+                (String.valueOf(Integer.parseInt(text) - Math.round(progress)) + getResources().getString(R.string.second)).length(), bounds);
+        canvas.drawText(String.valueOf(Math.abs(Integer.parseInt(text) - Math.round(progress))) + getResources().getString(R.string.second),
+                cx - bounds.width() / 2, cy - bounds.height() / 2, textPaint);
 
         super.onDraw(canvas);
     }
