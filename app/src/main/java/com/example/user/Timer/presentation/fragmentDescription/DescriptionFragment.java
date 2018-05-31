@@ -40,11 +40,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void showAllUsers(List<ModelInPresentationLayer> userList) {
         binding.loadingView.setVisibility(View.GONE);
         UserAdapter userAdapter = new UserAdapter(getContext());

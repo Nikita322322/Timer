@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.example.user.Timer.R;
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
 import java.util.ArrayList;
@@ -153,12 +154,8 @@ public class CustomGraphicsView extends View {
     }
 
     class Palette {
-        int[] colors = {Color.parseColor("#eceff1"), Color.parseColor("#cfd8dc"), Color.parseColor("#b0bec5"),
-                Color.parseColor("#90a4ae"), Color.parseColor("#78909c"), Color.parseColor("#607d8b"),
-                Color.parseColor("#546e7a"), Color.parseColor("#455a64"), Color.parseColor("#37474f")};
         int blackColor = Color.BLACK;
-        int blueColor = Color.parseColor("#ff33b5e5");
-        int grayColor = Color.parseColor("#ff33b5e5");
+        int blueColor = getResources().getColor(R.color.blue);
         int redColor = Color.RED;
     }
 

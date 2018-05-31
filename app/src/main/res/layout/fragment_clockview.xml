@@ -22,7 +22,8 @@
                 android:layout_weight="1"
                 android:text="@string/set_limit"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/limitTextView"

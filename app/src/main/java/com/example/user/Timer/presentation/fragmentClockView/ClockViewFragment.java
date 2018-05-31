@@ -24,21 +24,14 @@ import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragme
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-
 
 public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implements ClockViewView {
 
     private FragmentClockviewBinding binding;
     @Inject
     public ClockViewPresenter presenter;
-    private Disposable subscription = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +57,8 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             }
         });
         binding.changeButton.setOnClickListener(view -> {
-            mainRouter.showDescriptionFragment(null);
+            presenter.disposeFromSubscription(false);
+            mainRouter.showDescriptionFragment();
         });
 
         binding.saveValueButton.setOnClickListener(view ->
@@ -72,9 +66,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
         binding.startButton.setOnClickListener(view -> startTimer());
         binding.stopButton.setOnClickListener(view -> {
             binding.circleSeekBar.setTouchView(true);
-            if (subscription != null && !subscription.isDisposed()) {
-                subscription.dispose();
-            }
+            presenter.disposeFromSubscription(false);
         });
         binding.resetButton.setOnClickListener(view -> resetTimer());
         return binding.getRoot();
@@ -88,9 +80,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     @Override
     public void onStart() {
         super.onStart();
-        if (subscription != null && !subscription.isDisposed()) {
-            subscription.dispose();
-        }
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.navigation_button_animation);
         binding.changeButton.startAnimation(animation);
         animation.cancel();
@@ -98,7 +87,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
     private void startTimer() {
         if (!binding.limitTextView.getText().toString().trim().equals("") || Math.round(binding.circleSeekBar.getProgress()) != 0) {
-            if (subscription == null) {
+            if (presenter.checkSubscriptionOnNull()) {
                 try {
                     if (binding.limitTextView.getText().toString().trim().equals("")) {
                         binding.circleSeekBar.setMaxProgress(Math.round(binding.circleSeekBar.getProgress()));
@@ -113,32 +102,15 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
                 }
                 binding.circleSeekBar.setProgress(0);
             }
-            if (subscription != null && !subscription.isDisposed()) {
-                subscription.dispose();
-            }
+            presenter.disposeFromSubscription(false);
             binding.circleSeekBar.setTouchView(false);
-            startTime();
+            presenter.startTimer();
         } else {
             Toast toast = Toast.makeText(getContext(), R.string.limit, Toast.LENGTH_LONG);
             toast.show();
         }
     }
 
-    private void startTime() {
-        subscription = Observable.interval(50, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    if ((int) binding.circleSeekBar.getMaxProgress() == (int) binding.circleSeekBar.getProgress()) {
-                        binding.textView.setText("");
-                        Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
-                        toast.show();
-                        binding.circleSeekBar.setTouchView(true);
-                        subscription.dispose();
-                    } else {
-                        binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + 0.05));
-                        binding.circleSeekBar.invalidate();
-                    }
-                });
-    }
 
     private void setProgress(int progress) {
         int limit = 0;
@@ -165,10 +137,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             binding.circleSeekBar.setProgress(0);
         }
         binding.circleSeekBar.invalidate();
-        if (subscription != null && !subscription.isDisposed()) {
-            subscription.dispose();
-        }
-        subscription = null;
+        presenter.disposeFromSubscription(true);
     }
 
     @Override
@@ -183,7 +152,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
     @Override
     public void onStop() {
-        resetTimer();
         super.onStop();
     }
 
@@ -206,6 +174,20 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
 
         if (nm != null) {
             nm.notify(1, b.build());
+        }
+    }
+
+    @Override
+    public void invalidateCircleSeekBarView(float time) {
+        if ((int) binding.circleSeekBar.getMaxProgress() == (int) binding.circleSeekBar.getProgress()) {
+            binding.textView.setText("");
+            Toast toast = Toast.makeText(getContext(), R.string.finish, Toast.LENGTH_LONG);
+            toast.show();
+            binding.circleSeekBar.setTouchView(true);
+            presenter.disposeFromSubscription(true);
+        } else {
+            binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + time));
+            binding.circleSeekBar.invalidate();
         }
     }
 }

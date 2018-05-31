@@ -19,16 +19,22 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
 
     @Override
     protected void onViewAttached() {
-        addDisposable(getAllUsersInteractor.execute(null).subscribe(users -> {
-            if (isViewAttached() && users != null) {
-                view.showAllUsers(users);
-            }
-        }, Throwable::printStackTrace));
+
     }
 
     @Override
     public void deleteUser(Long id) {
         addDisposable(deleteUserInteractor.execute(id).subscribe(aBoolean -> {
         }, Throwable::printStackTrace));
+    }
+
+    @Override
+    public void onStart() {
+        addDisposable(getAllUsersInteractor.execute(null).subscribe(users -> {
+            if (isViewAttached() && users != null) {
+                view.showAllUsers(users);
+            }
+        }, Throwable::printStackTrace));
+        super.onStart();
     }
 }

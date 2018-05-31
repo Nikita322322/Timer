@@ -29,17 +29,17 @@ public class MainActivity extends AppCompatActivity implements MainRouter, BaseF
         Intent intent = getIntent();
         String isShowDescriptionFragment = intent.getStringExtra(DescriptionFragment.class.getName());
         if (isShowDescriptionFragment != null && isShowDescriptionFragment.equals(DescriptionFragment.class.getName())) {
-            showFragment(new DescriptionFragment(), null, true);
+            showFragment(new DescriptionFragment(), true);
         } else {
-            showFragment(new ClockViewFragment(), null, false);
+            showFragment(new ClockViewFragment(), false);
         }
     }
 
-    public void showFragment(BaseFragment activefragment, Bundle bundle, boolean addToBackStack) {
+    public void showFragment(BaseFragment activefragment, boolean addToBackStack) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
         activefragment.setOnFragmentActivatedListener(this);
-        if (fragmentByTag == null || bundle != null) {
+        if (fragmentByTag == null) {
             if (activefragment.getClass().getSimpleName().equals(CLOCK_VIEW_FRAGMENT)) {
                 supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 supportFragmentManager.beginTransaction()
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements MainRouter, BaseF
                             .commit();
                 }
             }
-            activefragment.setArguments(bundle);
         }
     }
 
@@ -74,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements MainRouter, BaseF
     }
 
     @Override
-    public void showDescriptionFragment(Bundle bundle) {
-        showFragment(new DescriptionFragment(), bundle, false);
+    public void showDescriptionFragment() {
+        showFragment(new DescriptionFragment(), false);
     }
 
     @Override

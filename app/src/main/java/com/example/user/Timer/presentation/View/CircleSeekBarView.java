@@ -198,7 +198,7 @@ public class CircleSeekBarView extends View {
 
         private void initSmallerCircle() {
             smallerCirclePaint = new Paint();
-            smallerCirclePaint.setColor(Color.parseColor("#03a9f4"));
+            smallerCirclePaint.setColor(getResources().getColor(R.color.blueLight));
         }
 
         private void initCirclePaint() {
@@ -210,7 +210,7 @@ public class CircleSeekBarView extends View {
 
         private void initInnerCircle() {
             innerCirclePaint = new Paint();
-            innerCirclePaint.setColor(Color.parseColor("#ff33b5e5"));
+            innerCirclePaint.setColor(getResources().getColor(R.color.blue));
             innerCirclePaint.setAntiAlias(true);
             innerCirclePaint.setStrokeWidth(5);
             innerCirclePaint.setStyle(Paint.Style.FILL);
@@ -247,18 +247,6 @@ public class CircleSeekBarView extends View {
             return innerCirclePaint;
         }
 
-    }
-
-    private double roundResult(double d, int precise) {
-        double result = d;
-        int precises = 0;
-        for (int i = precise; i >= 1; i--) {
-            precises = (int) Math.pow(10, i);
-            result = result * precises;
-            int i1 = (int) Math.round(result);
-            result = (double) i1 / precises;
-        }
-        return result;
     }
 
     private int getTextSizeInSp(int dp) {
