@@ -4,13 +4,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
@@ -59,13 +55,12 @@ public class CustomScrollViewForGraphics extends View {
     }
 
     public void scrollTo(float x) {
-        distanceOfScroll += x;
-        if (distanceOfScroll > getWidth() / 2) {
+        distanceOfScroll += Math.round(x);
+        if (distanceOfScroll >= getWidth() / 2) {
             listener.onFetchData();
-            distanceOfScroll = 0;
+            distanceOfScroll = -1 * Math.round(x);
         }
-        int w = getWidth();
-        if (mWidth + x >= w) {
+        if (mWidth + x >= getWidth()) {
             mWidth += 2 * Math.round(x);
             scrollBy(Math.round(x), 0);
         } else {
@@ -80,7 +75,7 @@ public class CustomScrollViewForGraphics extends View {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         if (valueAnimator != null && valueAnimator.isRunning()) {
-            if (lastDisplayedPosition != 0) {
+            if (lastDisplayedPosition != -1) {
                 for (int i = 0; i < modelInPresentationLayers.size(); i++) {
                     rect.left = i * cellWidth + 5;
                     rect.top = getHeight() - modelInPresentationLayers.get(i).getTime();
@@ -92,8 +87,7 @@ public class CustomScrollViewForGraphics extends View {
                     }
                 }
             }
-
-            for (int i = lastDisplayedPosition; i < viewModelList.size(); i++) {
+            for (int i = lastDisplayedPosition + 1; i < viewModelList.size(); i++) {
                 rect.left = i * cellWidth + 5;
                 rect.top = getHeight() - viewModelList.get(i).getTime();
                 rect.right = rect.left + cellWidth - 10;
@@ -120,11 +114,7 @@ public class CustomScrollViewForGraphics extends View {
     }
 
     public void setModel(List<ModelInPresentationLayer> user, int time) {
-        if (modelInPresentationLayers.size() == 0) {
-            lastDisplayedPosition = modelInPresentationLayers.size();
-        } else {
-            lastDisplayedPosition = modelInPresentationLayers.size() - 1;
-        }
+        lastDisplayedPosition = modelInPresentationLayers.size() - 1;
         modelInPresentationLayers.addAll(user);
         valueAnimator = ValueAnimator.ofFloat(0, 100);
         valueAnimator.setDuration(time);

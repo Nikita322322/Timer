@@ -23,7 +23,11 @@ public class DescriptionPresenterImpl extends BasePresenterImpl<DescriptionView>
 
     @Override
     protected void onViewAttached() {
-        fetchNewData();
+        getAllUsersInteractor.execute(null).subscribe(modelInPresentationLayers -> {
+            if (isViewAttached()) {
+                view.showAllUsers(modelInPresentationLayers);
+            }
+        });
     }
 
     @Override

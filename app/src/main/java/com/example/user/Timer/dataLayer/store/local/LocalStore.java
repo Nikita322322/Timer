@@ -33,9 +33,9 @@ public class LocalStore {
             try {
                 Random rand = new Random();
                 List<User> userList = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 4; i++) {
                     User user = new User();
-                    user.setTime(rand.nextInt(280) + 10);
+                    user.setTime(rand.nextInt(380) + 10);
                     userList.add(user);
                 }
                 subscriber.onNext(userList);
