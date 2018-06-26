@@ -24,6 +24,8 @@ import com.example.user.Timer.presentation.fragmentDescription.DescriptionFragme
 import com.example.user.Timer.presentation.mvp.BaseFragment;
 import com.example.user.Timer.presentation.mvp.BaseView;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     private FragmentClockviewBinding binding;
     @Inject
     public ClockViewPresenter presenter;
+    String[] item = {"a", "b", "v", "g", "d", "e", "j"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +76,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.navigation_button_animation);
@@ -110,7 +108,6 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             toast.show();
         }
     }
-
 
     private void setProgress(int progress) {
         int limit = 0;
@@ -156,18 +153,18 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
     }
 
     @Override
-    public void notifyThatUserSaved(String message) {
+    public void notifyThatUserSaved() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra(DescriptionFragment.class.getName(), DescriptionFragment.class.getName());
         int requestID = (int) System.currentTimeMillis();
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity(), "dffd");
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getActivity(), getResources().getString(R.string.chanel_one));
         b.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(getResources().getString(R.string.Congratulations))
-                .setContentText(message)
+                .setContentText(getResources().getString(R.string.the_result_has_been_saved))
                 .setContentIntent(pendingIntent);
 
         NotificationManager nm = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -186,7 +183,7 @@ public class ClockViewFragment extends BaseFragment<ClockViewPresenter> implemen
             binding.circleSeekBar.setTouchView(true);
             presenter.disposeFromSubscription(true);
         } else {
-            binding.circleSeekBar.setProgress((float) (binding.circleSeekBar.getProgress() + time));
+            binding.circleSeekBar.setProgress(binding.circleSeekBar.getProgress() + time);
             binding.circleSeekBar.invalidate();
         }
     }

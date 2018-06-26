@@ -17,7 +17,6 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
 
     private final SaveValueInteractor saveValueInteractor;
     private final TransformerInPresentationLayer transformerInPresentationLayer;
-    private final String NOTIFY_MESSAGE = "результат был сохранен";
     private Disposable subscription = null;
 
     @Inject
@@ -41,7 +40,7 @@ public class ClockViewPresenterImpl extends BasePresenterImpl<ClockViewView> imp
         addDisposable(saveValueInteractor.execute(transformerInPresentationLayer.getModelInPresentationLayer(value, maxValue))
                 .subscribe(aBoolean -> {
                     if (aBoolean && isViewAttached()) {
-                        view.notifyThatUserSaved(NOTIFY_MESSAGE);
+                        view.notifyThatUserSaved();
                     }
                 }, Throwable::printStackTrace));
     }

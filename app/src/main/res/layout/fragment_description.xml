@@ -14,31 +14,11 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <com.example.user.Timer.presentation.View.CustomGraphicsView
-            android:id="@+id/customGraphicsView"
+        <com.example.user.Timer.presentation.View.CustomScrollViewForGraphics
+            android:id="@+id/customScrollViewForGraphics"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            android:focusable="true" />
+            android:layout_height="300dp">
 
-        <TextView
-            android:id="@+id/searchValueEditText"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="61dp"
-            android:layout_marginRight="61dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/listview_start"
-            android:textAlignment="center" />
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp">
-
-        </ListView>
+        </com.example.user.Timer.presentation.View.CustomScrollViewForGraphics>
     </LinearLayout>
-
 </layout>

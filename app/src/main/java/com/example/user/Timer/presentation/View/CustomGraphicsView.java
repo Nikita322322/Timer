@@ -17,6 +17,7 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.example.user.Timer.R;
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
@@ -160,7 +161,6 @@ public class CustomGraphicsView extends View {
     }
 
     class ViewModel {
-
         int startX;
         int startY;
         int endY;
@@ -178,7 +178,6 @@ public class CustomGraphicsView extends View {
             this.height = height;
             this.id = id;
         }
-
     }
 }
 

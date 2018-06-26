@@ -9,21 +9,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
-
-public class GetAllUsersInteractor extends UseCase<Void, List<ModelInPresentationLayer>> {
+public class FetchNewDataInteractor extends UseCase<Void, List<ModelInPresentationLayer>> {
     private final Repository repository;
     private final TransformerInPresentationLayer transformerInPresentationLayer;
 
     @Inject
-    public GetAllUsersInteractor(Repository repository, TransformerInPresentationLayer transformerInPresentationLayer) {
+    public FetchNewDataInteractor(Repository repository, TransformerInPresentationLayer transformerInPresentationLayer) {
         this.repository = repository;
         this.transformerInPresentationLayer = transformerInPresentationLayer;
     }
 
     @Override
     protected Observable<List<ModelInPresentationLayer>> buildUseCase(Void arg) {
-        return repository.getAllUsers().map(transformerInPresentationLayer.domainModelToPresentationModel);
+        return repository.fetchNewDate().map(transformerInPresentationLayer.domainModelToPresentationModel);
     }
 }

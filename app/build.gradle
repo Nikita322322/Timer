@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 26//is the version of the API is  in building the app
     defaultConfig {
         applicationId "com.example.user.Timer"
         minSdkVersion 16
 
-        targetSdkVersion 26
-        versionCode 1
+        targetSdkVersion 26//integer designating the API Level that the application is targetting
+        versionCode 1//version of my app
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"//for default test
 
     }
 
@@ -20,32 +20,47 @@ android {
 
     buildTypes {
         release {
+            //So, in default setup both debug and release builds aren't using ProGuard,
+            // and parameter proguardFiles is effectively ignored
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
         targetCompatibility 1.8
-        sourceCompatibility 1.8
+//will generate java bytecode that is compatible with a specific version of Java
+        sourceCompatibility 1.8//Java version  to use when compiling Java source.
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'//unit testing framework for Java programming language.
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        // Necessary if your app include targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'//This module adds the minimum classes to RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+//AndroidSchedulers.mainThread() for example
+//This module adds the minimum classes to RxJava
 // Because RxAndroid releases are few and far between, it is recommended you also
 // explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex.rxjava2:rxjava:2.1.13'//the main module of RxJava
-    compile group: 'com.google.dagger', name: 'dagger', version: '2.16'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.13'//the main module of RxJava
+    implementation group: 'com.google.dagger', name: 'dagger', version: '2.16'
+//to use Dagger in a project
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
-    compile 'android.arch.persistence.room:runtime:1.1.0'
+//used to convert our annotated classes into the code
+    implementation 'android.arch.persistence.room:runtime:1.1.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.0'
+//    implementation 'com.android.support:design:26.1.0'//FloatingActionButton
+//   // implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
     implementation 'com.android.support:design:26.1.0'
+    //paging library
+    implementation 'android.arch.paging:runtime:1.0.0-alpha4-1'
+// ViewModel and LiveData
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+
 }

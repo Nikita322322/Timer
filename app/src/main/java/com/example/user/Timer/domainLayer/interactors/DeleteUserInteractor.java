@@ -4,6 +4,7 @@ import com.example.user.Timer.dataLayer.repository.Repository;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 /**
@@ -19,7 +20,7 @@ public class DeleteUserInteractor extends UseCase<Long, Boolean> {
     }
 
     @Override
-    protected Single<Boolean> buildUseCase(Long arg) {
+    protected Observable<Boolean> buildUseCase(Long arg) {
         return repository.deleteUser(arg);
     }
 }

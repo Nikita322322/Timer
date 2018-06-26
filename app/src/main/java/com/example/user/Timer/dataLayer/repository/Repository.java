@@ -1,11 +1,12 @@
 package com.example.user.Timer.dataLayer.repository;
 
+import com.example.user.Timer.dataLayer.store.models.User;
 import com.example.user.Timer.domainLayer.interactors.model.ModelInDomainLayer;
 
 
 import java.util.List;
 
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 /**
  * Created by User on 17.05.2018.
@@ -13,9 +14,11 @@ import io.reactivex.Single;
 
 public interface Repository {
 
-    Single<Boolean> saveUser(ModelInDomainLayer user);
+    Observable<Boolean> saveUser(ModelInDomainLayer user);
 
-    Single<List<ModelInDomainLayer>> getAllUsers();
+    Observable<List<ModelInDomainLayer>> getAllUsers();
 
-    Single<Boolean> deleteUser(long id);
+    Observable<Boolean> deleteUser(long id);
+
+    Observable<List<ModelInDomainLayer>> fetchNewDate();
 }

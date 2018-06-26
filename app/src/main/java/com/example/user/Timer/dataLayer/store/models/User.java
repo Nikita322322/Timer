@@ -3,6 +3,11 @@ package com.example.user.Timer.dataLayer.store.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.DiffCallback;
+import android.util.Log;
+//import android.support.v7.recyclerview.extensions.DiffCallback;
+import android.support.v7.util.DiffUtil;
 
 import static com.example.user.Timer.dataLayer.store.models.User.TABLE_NAME;
 
@@ -57,5 +62,18 @@ public class User {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public static final DiffCallback<User> DIFF_CALLBACK = new DiffCallback<User>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull User oldItem, @NonNull User newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull User oldItem, @NonNull User newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }
 
