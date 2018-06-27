@@ -93,23 +93,22 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
 //        });
         mDetector = new GestureDetector(getContext(), new MyGestureListener());
         binding.customScrollViewForGraphics.setOnTouchListener(touchListener);
+
     }
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            // pass the events to the gesture detector
-            // a return value of true means the detector is handling it
-            // a return value of false means the detector didn't
-            // recognize the event
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                binding.customScrollViewForGraphics.scrollIsFinished();
+            }
             return mDetector.onTouchEvent(event);
-
         }
     };
 
     @Override
     public void showAllUsers(List<ModelInPresentationLayer> userList) {
-         binding.customScrollViewForGraphics.setModel(userList,400);
+        binding.customScrollViewForGraphics.setModel(userList, 400);
     }
 
     private void showDialog(UserAdapter userAdapter, int i) {
@@ -153,9 +152,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
 
         @Override
         public boolean onDown(MotionEvent event) {
-
-            // don't return false here or else none of the other
-            // gestures will work
             return true;
         }
 
@@ -183,6 +179,7 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
+
             return true;
         }
     }

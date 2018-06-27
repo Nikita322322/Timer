@@ -15,10 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomScrollViewForGraphics extends View {
-    private RectF rect = new RectF();
-    private Paint paint = new Paint();
+    private RectF rect;
+    private Paint paint;
     private int mWidth;
-    private int mHeight;
     private int cellWidth;
     private int distanceOfScroll = 0;
     private int lastDisplayedPosition = 0;
@@ -48,25 +47,42 @@ public class CustomScrollViewForGraphics extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
-        mHeight = h;
         cellWidth = getWidth() / 5;
+        rect = new RectF();
+        paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
     }
 
     public void scrollTo(float x) {
-        distanceOfScroll += Math.round(x);
-        if (distanceOfScroll >= getWidth() / 2) {
-            listener.onFetchData();
-            distanceOfScroll = -1 * Math.round(x);
-        }
         if (mWidth + x >= getWidth()) {
+            distanceOfScroll += Math.round(x);
             mWidth += 2 * Math.round(x);
             scrollBy(Math.round(x), 0);
         } else {
             mWidth = getWidth();
             scrollTo(0, 0);
         }
+    }
+
+    public void scrollIsFinished() {
+        listener.onFetchData();
+        int pos;
+        if (distanceOfScroll % cellWidth > cellWidth / 2) {
+            pos = (distanceOfScroll / cellWidth + 1) * cellWidth;
+        } else {
+            pos = (distanceOfScroll / cellWidth) * cellWidth;
+        }
+        valueAnimator = ValueAnimator.ofFloat(99, 100);
+        valueAnimator.setDuration(100);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                Float animatedValue = (Float) valueAnimator.getAnimatedValue();
+                scrollTo(Math.round(pos * animatedValue / 100), 0);
+            }
+        });
+        valueAnimator.start();
     }
 
     @Override
@@ -77,40 +93,43 @@ public class CustomScrollViewForGraphics extends View {
         if (valueAnimator != null && valueAnimator.isRunning()) {
             if (lastDisplayedPosition != -1) {
                 for (int i = 0; i < modelInPresentationLayers.size(); i++) {
-                    rect.left = i * cellWidth + 5;
+                    rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                     rect.top = getHeight() - modelInPresentationLayers.get(i).getTime();
-                    rect.right = rect.left + cellWidth - 10;
+                    rect.right = rect.left + cellWidth - 5;
                     rect.bottom = getHeight();
                     canvas.drawRoundRect(rect, 20, 20, paint);
+                    drawLine(canvas);
                     if (i == lastDisplayedPosition) {
                         break;
                     }
                 }
             }
             for (int i = lastDisplayedPosition + 1; i < viewModelList.size(); i++) {
-                rect.left = i * cellWidth + 5;
+                rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                 rect.top = getHeight() - viewModelList.get(i).getTime();
-                rect.right = rect.left + cellWidth - 10;
+                rect.right = rect.left + cellWidth - 5;
                 rect.bottom = getHeight();
                 canvas.drawRoundRect(rect, 20, 20, paint);
+                drawLine(canvas);
             }
 
         }
         if (valueAnimator != null && !valueAnimator.isRunning()) {
             for (int i = 0; i < modelInPresentationLayers.size(); i++) {
-                rect.left = i * cellWidth + 5;
+                rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                 rect.top = getHeight() - modelInPresentationLayers.get(i).getTime();
-                rect.right = rect.left + cellWidth - 10;
+                rect.right = rect.left + cellWidth - 5;
                 rect.bottom = getHeight();
                 canvas.drawRoundRect(rect, 20, 20, paint);
+                drawLine(canvas);
             }
         }
         viewModelList.clear();
-        drawLine(canvas);
+
     }
 
     public void drawLine(Canvas canvas) {
-        canvas.drawLine(mWidth / 2, 10, mWidth / 2, mHeight, paint);
+        canvas.drawLine(Math.round(rect.left + rect.right) / 2, rect.bottom, Math.round(rect.left + rect.right) / 2, rect.top, getRedPaint());
     }
 
     public void setModel(List<ModelInPresentationLayer> user, int time) {
@@ -150,5 +169,11 @@ public class CustomScrollViewForGraphics extends View {
         public long getTime() {
             return time;
         }
+    }
+
+    private Paint getRedPaint() {
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        return paint;
     }
 }
