@@ -46,7 +46,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
     @Inject
     DescriptionPresenter presenter;
     private FragmentDescriptionBinding binding;
-    private GestureDetector mDetector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,20 +90,8 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
 //                binding.recyclerView.setPadding(Math.round(view.getWidth() / 2) - 40, 0, 0, 0);
 //            }
 //        });
-        mDetector = new GestureDetector(getContext(), new MyGestureListener());
-        binding.customScrollViewForGraphics.setOnTouchListener(touchListener);
 
     }
-
-    View.OnTouchListener touchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                binding.customScrollViewForGraphics.scrollIsFinished();
-            }
-            return mDetector.onTouchEvent(event);
-        }
-    };
 
     @Override
     public void showAllUsers(List<ModelInPresentationLayer> userList) {
@@ -148,41 +135,6 @@ public class DescriptionFragment extends BaseFragment<DescriptionPresenter> impl
         presenter.fetchNewData();
     }
 
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onDown(MotionEvent event) {
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                                float distanceX, float distanceY) {
-            binding.customScrollViewForGraphics.scrollTo(distanceX);
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2,
-                               float velocityX, float velocityY) {
-
-            return true;
-        }
-    }
 }
 
 

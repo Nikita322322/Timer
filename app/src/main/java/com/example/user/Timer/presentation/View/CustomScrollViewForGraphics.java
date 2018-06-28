@@ -6,8 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Scroller;
 
 import com.example.user.Timer.presentation.ModelInPresentationLayer.ModelInPresentationLayer;
 
@@ -15,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomScrollViewForGraphics extends View {
+    private final int INDENT = 5;//dp
+    private final int ROUNDING = 20;//dp
     private RectF rect;
     private Paint paint;
     private int mWidth;
@@ -25,22 +32,32 @@ public class CustomScrollViewForGraphics extends View {
     private List<ModelInPresentationLayer> modelInPresentationLayers = new ArrayList<>();
     private List<ViewModel> viewModelList = new ArrayList<>();
     private ValueAnimator valueAnimator;
+    private GestureDetector mDetector;
+    private Scroller scroller;
+    private boolean inTheEnd = false;
 
     public CustomScrollViewForGraphics(Context context) {
         super(context);
+        init(context);
     }
 
     public CustomScrollViewForGraphics(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public CustomScrollViewForGraphics(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+    }
+
+    private void init(Context context) {
+        scroller = new Scroller(context);
     }
 
     @Override
@@ -52,37 +69,48 @@ public class CustomScrollViewForGraphics extends View {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
+        mDetector = new GestureDetector(getContext(), new MyGestureListener());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int a;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            scrollIsFinished();
+        }
+        if (!mDetector.onTouchEvent(event) && event.getAction() == MotionEvent.ACTION_MOVE) {
+            scrollBy(1, 0);
+        }
+        return mDetector.onTouchEvent(event);
     }
 
     public void scrollTo(float x) {
         if (mWidth + x >= getWidth()) {
-            distanceOfScroll += Math.round(x);
+            distanceOfScroll += 2 * Math.round(x);
             mWidth += 2 * Math.round(x);
-            scrollBy(Math.round(x), 0);
+            scrollBy(2 * Math.round(x), 0);
+            inTheEnd = false;
         } else {
             mWidth = getWidth();
+            distanceOfScroll = 0;
             scrollTo(0, 0);
+            inTheEnd = true;
         }
     }
 
     public void scrollIsFinished() {
         listener.onFetchData();
+        scrollTo(getPositionOfScroll(distanceOfScroll), 0);
+    }
+
+    private int getPositionOfScroll(int distanceOfScroll) {
         int pos;
-        if (distanceOfScroll % cellWidth > cellWidth / 2) {
+        if (distanceOfScroll % cellWidth > (cellWidth - INDENT) / 2) {
             pos = (distanceOfScroll / cellWidth + 1) * cellWidth;
         } else {
             pos = (distanceOfScroll / cellWidth) * cellWidth;
         }
-        valueAnimator = ValueAnimator.ofFloat(99, 100);
-        valueAnimator.setDuration(100);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Float animatedValue = (Float) valueAnimator.getAnimatedValue();
-                scrollTo(Math.round(pos * animatedValue / 100), 0);
-            }
-        });
-        valueAnimator.start();
+        return Math.round(pos);
     }
 
     @Override
@@ -95,9 +123,9 @@ public class CustomScrollViewForGraphics extends View {
                 for (int i = 0; i < modelInPresentationLayers.size(); i++) {
                     rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                     rect.top = getHeight() - modelInPresentationLayers.get(i).getTime();
-                    rect.right = rect.left + cellWidth - 5;
+                    rect.right = rect.left + cellWidth - INDENT;
                     rect.bottom = getHeight();
-                    canvas.drawRoundRect(rect, 20, 20, paint);
+                    canvas.drawRoundRect(rect, ROUNDING, ROUNDING, paint);
                     drawLine(canvas);
                     if (i == lastDisplayedPosition) {
                         break;
@@ -107,9 +135,9 @@ public class CustomScrollViewForGraphics extends View {
             for (int i = lastDisplayedPosition + 1; i < viewModelList.size(); i++) {
                 rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                 rect.top = getHeight() - viewModelList.get(i).getTime();
-                rect.right = rect.left + cellWidth - 5;
+                rect.right = rect.left + cellWidth - INDENT;
                 rect.bottom = getHeight();
-                canvas.drawRoundRect(rect, 20, 20, paint);
+                canvas.drawRoundRect(rect, ROUNDING, ROUNDING, paint);
                 drawLine(canvas);
             }
 
@@ -118,14 +146,16 @@ public class CustomScrollViewForGraphics extends View {
             for (int i = 0; i < modelInPresentationLayers.size(); i++) {
                 rect.left = i * cellWidth + Math.round(getWidth() / 2 - cellWidth / 2);
                 rect.top = getHeight() - modelInPresentationLayers.get(i).getTime();
-                rect.right = rect.left + cellWidth - 5;
+                rect.right = rect.left + cellWidth - INDENT;
                 rect.bottom = getHeight();
-                canvas.drawRoundRect(rect, 20, 20, paint);
+                canvas.drawRoundRect(rect, ROUNDING, ROUNDING, paint);
                 drawLine(canvas);
             }
         }
         viewModelList.clear();
-
+        if (scroller.computeScrollOffset()) {
+            scrollTo(scroller.getCurrX(), scroller.getCurrY());
+        }
     }
 
     public void drawLine(Canvas canvas) {
@@ -175,5 +205,53 @@ public class CustomScrollViewForGraphics extends View {
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         return paint;
+    }
+
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                float distanceX, float distanceY) {
+            scrollTo(distanceX);
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+//            scroller.fling(getScrollX(), getScrollY(),
+//                    -(int) velocityX, -(int) velocityY, 0, mWidth, 0, 0);
+            float duration = 0.20f;
+            float path = -1 * velocityX * duration;
+            distanceOfScroll += Math.round(path);
+            if (distanceOfScroll <= 0) {
+                scrollTo(0, 0);
+                distanceOfScroll = 0;
+            } else {
+                scroller.startScroll(getScrollX(), getScrollY(), getPositionOfScroll(Math.round(path)), 0, 700);
+            }
+            invalidate();
+            return true;
+        }
     }
 }
