@@ -36,30 +36,30 @@ public class MainActivity extends AppCompatActivity implements MainRouter, BaseF
     }
 
     public void showFragment(BaseFragment activefragment, boolean addToBackStack) {
-//        FragmentManager supportFragmentManager = getSupportFragmentManager();
-//        Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
-//        activefragment.setOnFragmentActivatedListener(this);
-//        if (fragmentByTag == null) {
-//            if (activefragment.getClass().getSimpleName().equals(CLOCK_VIEW_FRAGMENT)) {
-//                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                supportFragmentManager.beginTransaction()
-//                        .add(R.id.fragmentMainLay, activefragment)
-//                        .commit();
-//            } else {
-//                if (addToBackStack) {
-//                    supportFragmentManager.beginTransaction()
-//                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
-//                            .replace(R.id.fragmentMainLay, activefragment)
-//                            .commit();
-//                } else {
-//                    supportFragmentManager.beginTransaction()
-//                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
-//                            .replace(R.id.fragmentMainLay, activefragment)
-//                            .addToBackStack(null)
-//                            .commit();
-//                }
-//            }
-//        }
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        Fragment fragmentByTag = supportFragmentManager.findFragmentByTag(activefragment.getClass().getSimpleName());
+        activefragment.setOnFragmentActivatedListener(this);
+        if (fragmentByTag == null) {
+            if (activefragment.getClass().getSimpleName().equals(CLOCK_VIEW_FRAGMENT)) {
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragmentMainLay, activefragment)
+                        .commit();
+            } else {
+                if (addToBackStack) {
+                    supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
+                            .replace(R.id.fragmentMainLay, activefragment)
+                            .commit();
+                } else {
+                    supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_in_left)
+                            .replace(R.id.fragmentMainLay, activefragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }
+        }
     }
 
     public void showNavigationButton(Boolean isShow) {

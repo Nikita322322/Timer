@@ -29,7 +29,7 @@ public class CentralLineView extends View {
         paint.setColor(Color.RED);
         paint.setStrokeWidth(3);
         Path path = new Path();
-        path.moveTo(getWidth() / 2, 0);
+        path.moveTo((getWidth()) / 2, 0);
         path.lineTo(getWidth() / 2 - 50, 50);
         path.lineTo(getWidth() / 2 + 50, 50);
         canvas.drawPath(path, paint);

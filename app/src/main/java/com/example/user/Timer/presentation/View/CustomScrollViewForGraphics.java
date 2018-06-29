@@ -6,9 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +33,7 @@ public class CustomScrollViewForGraphics extends View {
     private ValueAnimator valueAnimator;
     private GestureDetector mDetector;
     private Scroller scroller;
-    private boolean inTheEnd = false;
+    private float x = 0;
 
     public CustomScrollViewForGraphics(Context context) {
         super(context);
@@ -58,6 +57,7 @@ public class CustomScrollViewForGraphics extends View {
 
     private void init(Context context) {
         scroller = new Scroller(context);
+        mDetector = new GestureDetector(context, new MyGestureListener());
     }
 
     @Override
@@ -69,17 +69,23 @@ public class CustomScrollViewForGraphics extends View {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
-        mDetector = new GestureDetector(getContext(), new MyGestureListener());
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int a;
         if (event.getAction() == MotionEvent.ACTION_UP) {
             scrollIsFinished();
+            x = 0;
         }
+
         if (!mDetector.onTouchEvent(event) && event.getAction() == MotionEvent.ACTION_MOVE) {
-            scrollBy(1, 0);
+            if (x == 0) {
+                x = event.getX();
+            }
+            scrollBy(Math.round(x - event.getX()), 0);
+            distanceOfScroll+=x - event.getX();
+            Log.v("delete", String.valueOf(x) + "event- " + String.valueOf(event.getX()));
+            x = event.getX();
         }
         return mDetector.onTouchEvent(event);
     }
@@ -89,12 +95,10 @@ public class CustomScrollViewForGraphics extends View {
             distanceOfScroll += 2 * Math.round(x);
             mWidth += 2 * Math.round(x);
             scrollBy(2 * Math.round(x), 0);
-            inTheEnd = false;
         } else {
             mWidth = getWidth();
             distanceOfScroll = 0;
             scrollTo(0, 0);
-            inTheEnd = true;
         }
     }
 
@@ -233,14 +237,13 @@ public class CustomScrollViewForGraphics extends View {
         public boolean onScroll(MotionEvent e1, MotionEvent e2,
                                 float distanceX, float distanceY) {
             scrollTo(distanceX);
+            x = 0;
             return true;
         }
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
-//            scroller.fling(getScrollX(), getScrollY(),
-//                    -(int) velocityX, -(int) velocityY, 0, mWidth, 0, 0);
             float duration = 0.20f;
             float path = -1 * velocityX * duration;
             distanceOfScroll += Math.round(path);
